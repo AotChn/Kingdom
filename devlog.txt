@@ -1,0 +1,1 @@
+05/10/2023 - set up sfml window and implemented cursor movement
