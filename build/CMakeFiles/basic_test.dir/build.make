@@ -73,15 +73,15 @@ CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o: CMakeFiles/basic_test.di
 CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o: /Users/Aot/Desktop/Kingdom/_test_files/basic_test.cpp
 CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o: CMakeFiles/basic_test.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Aot/Desktop/Kingdom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o -MF CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o.d -o CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o -c /Users/Aot/Desktop/Kingdom/_test_files/basic_test.cpp
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o -MF CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o.d -o CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o -c /Users/Aot/Desktop/Kingdom/_test_files/basic_test.cpp
 
 CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Aot/Desktop/Kingdom/_test_files/basic_test.cpp > CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Aot/Desktop/Kingdom/_test_files/basic_test.cpp > CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.i
 
 CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Aot/Desktop/Kingdom/_test_files/basic_test.cpp -o CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Aot/Desktop/Kingdom/_test_files/basic_test.cpp -o CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.s
 
 # Object files for target basic_test
 basic_test_OBJECTS = \
@@ -92,7 +92,7 @@ basic_test_EXTERNAL_OBJECTS =
 
 bin/basic_test: CMakeFiles/basic_test.dir/_test_files/basic_test.cpp.o
 bin/basic_test: CMakeFiles/basic_test.dir/build.make
-bin/basic_test: lib/libgtest.a
+bin/basic_test: lib/libgtestd.a
 bin/basic_test: /usr/local/lib/libsfml-graphics.2.5.1.dylib
 bin/basic_test: /usr/local/lib/libsfml-window.2.5.1.dylib
 bin/basic_test: /usr/local/lib/libsfml-system.2.5.1.dylib

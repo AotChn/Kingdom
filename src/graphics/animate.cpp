@@ -4,7 +4,6 @@ animate::animate(){
     window.create(sf::VideoMode(SCREEN_WIDTH,SCREEN_HEIGHT),"KINGDOM");
     window.setFramerateLimit(60);
     b.set_param(10,10);
-    //std::cout << b.dx << " | " << b.dy << std::endl;
 }
 
 void animate::run(){
@@ -23,7 +22,6 @@ void animate::run(){
 
 void animate::draw(){
     b.draw(window);
-    int a =  sf::Mouse::getPosition(window).x;
 
 }
 
@@ -43,7 +41,6 @@ void animate::process_events(){
             }
             break;
 
-            
         }
 
     }

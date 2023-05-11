@@ -1,6 +1,10 @@
 #include "board.h"
 
 
+//===========================================
+//	TILE INFO/ MANIPULATION
+//===========================================
+
 std::pair<int,int> board::sfml_to_tile(int coordx, int coordy){
     std::pair<int,int> tile;
     tile.first  = coordx/dx;
@@ -14,21 +18,18 @@ void board::add(int coordx, int coordy){
 }
 
 int board::find_tile(int x, int y){
-    //std::cout<< "{" << x << " | " << y << "} ";
     return ((y*col)+x)+1;
 } 
 
 int board::find_tile(int coordx, int coordy, std::pair<int,int> tile){
     tile.first = coordx/dx;
     tile.second = coordy/dy;
-    //std::cout<< "{" << tile.first << " | " << tile.second << "} ";
     return ((tile.second*4)+tile.first)+tile.second+1;
 } 
 
 int board::find_distance(std::pair<int,int> a, std::pair<int,int> b){
     int i = abs(a.first - b.first);
     int j = abs(a.second - b.second);
-    //std::cout << i << " | " << j<< std::endl;
     return i+j;
 }
 
@@ -41,7 +42,6 @@ int board::find_distance(){
 int board::find_distance(int x, int y){
     int i = abs(tiles[0].first - x);
     int j = abs(tiles[0].second - y);
-    //std::cout << i << " | " << j<< std::endl;
     return i+j;
 }
 
@@ -51,7 +51,13 @@ void board::set_param(int r, int c){
     col = c;
     dx = SCREEN_HEIGHT/row;
     dy = SCREEN_WIDTH/col;
+    init_map();
 }
+
+
+//===========================================
+//	DRAW
+//===========================================
 
 void board::draw(sf::RenderWindow& window){
     draw_grid(window);
@@ -80,7 +86,7 @@ void board::draw_grid(sf::RenderWindow& window){
     
 }
 
-void board::soldier(int i, int j, sf::RenderWindow& window, sf::Color c){
+void board::draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c){
     int w = 15;
     sf::RectangleShape s;
     s.setFillColor(c); 
@@ -117,9 +123,18 @@ sf::RectangleShape board::unit(int i, int j, sf::Color c){
     return s;
 }
 
-sf::RectangleShape board::move_unit(int i, int j, int x, int y, sf::RectangleShape u, sf::Color c){
-    u = unit(i+x, j+y, c);
-    units[i][j] = 0;
-    units[i+x][j+y] = 1;
-    return u;
+void board::move_unit(int i, int j, int x, int y, sf::Color c){
+   u[find_tile(i,j)] = 0;
+   u[find_tile(i+x, j+y)] = 1;
 }
+
+void board::init_map(){
+    std::cout<< row*col << std::endl;
+    for(int i=0;i<(row*col); i++){
+        if(i%3==0)
+            u.push_back(1);
+        else
+            u.push_back(0);
+    }
+}
+

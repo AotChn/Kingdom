@@ -73,15 +73,15 @@ CMakeFiles/testB.dir/_test_files/testB.cpp.o: CMakeFiles/testB.dir/flags.make
 CMakeFiles/testB.dir/_test_files/testB.cpp.o: /Users/Aot/Desktop/Kingdom/_test_files/testB.cpp
 CMakeFiles/testB.dir/_test_files/testB.cpp.o: CMakeFiles/testB.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/Aot/Desktop/Kingdom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/testB.dir/_test_files/testB.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/testB.dir/_test_files/testB.cpp.o -MF CMakeFiles/testB.dir/_test_files/testB.cpp.o.d -o CMakeFiles/testB.dir/_test_files/testB.cpp.o -c /Users/Aot/Desktop/Kingdom/_test_files/testB.cpp
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/testB.dir/_test_files/testB.cpp.o -MF CMakeFiles/testB.dir/_test_files/testB.cpp.o.d -o CMakeFiles/testB.dir/_test_files/testB.cpp.o -c /Users/Aot/Desktop/Kingdom/_test_files/testB.cpp
 
 CMakeFiles/testB.dir/_test_files/testB.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testB.dir/_test_files/testB.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Aot/Desktop/Kingdom/_test_files/testB.cpp > CMakeFiles/testB.dir/_test_files/testB.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/Aot/Desktop/Kingdom/_test_files/testB.cpp > CMakeFiles/testB.dir/_test_files/testB.cpp.i
 
 CMakeFiles/testB.dir/_test_files/testB.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testB.dir/_test_files/testB.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Aot/Desktop/Kingdom/_test_files/testB.cpp -o CMakeFiles/testB.dir/_test_files/testB.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/Aot/Desktop/Kingdom/_test_files/testB.cpp -o CMakeFiles/testB.dir/_test_files/testB.cpp.s
 
 # Object files for target testB
 testB_OBJECTS = \
@@ -92,7 +92,7 @@ testB_EXTERNAL_OBJECTS =
 
 bin/testB: CMakeFiles/testB.dir/_test_files/testB.cpp.o
 bin/testB: CMakeFiles/testB.dir/build.make
-bin/testB: lib/libgtest.a
+bin/testB: lib/libgtestd.a
 bin/testB: /usr/local/lib/libsfml-graphics.2.5.1.dylib
 bin/testB: /usr/local/lib/libsfml-window.2.5.1.dylib
 bin/testB: /usr/local/lib/libsfml-system.2.5.1.dylib
