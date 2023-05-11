@@ -1,18 +1,64 @@
 #include "board.h"
 
-int find_idx(int x, int y){
-    return (y*4)+x;
+
+std::pair<int,int> board::sfml_to_tile(int coordx, int coordy){
+    std::pair<int,int> tile;
+    tile.first  = coordx/dx;
+    tile.second = coordy/dy;
+    return tile;
 }
+
+void board::add(int coordx, int coordy){
+    if(tiles.empty())
+        tiles.push_back(sfml_to_tile(coordx, coordy));
+}
+
+int board::find_tile(int x, int y){
+    //std::cout<< "{" << x << " | " << y << "} ";
+    return ((y*col)+x)+1;
+} 
+
+int board::find_tile(int coordx, int coordy, std::pair<int,int> tile){
+    tile.first = coordx/dx;
+    tile.second = coordy/dy;
+    //std::cout<< "{" << tile.first << " | " << tile.second << "} ";
+    return ((tile.second*4)+tile.first)+tile.second+1;
+} 
+
+int board::find_distance(std::pair<int,int> a, std::pair<int,int> b){
+    int i = abs(a.first - b.first);
+    int j = abs(a.second - b.second);
+    //std::cout << i << " | " << j<< std::endl;
+    return i+j;
+}
+
+int board::find_distance(){
+    std::pair<int,int> a = tiles[1];
+    //tiles.pop_back();
+    return find_distance(a, tiles[0]);
+}
+
+int board::find_distance(int x, int y){
+    int i = abs(tiles[0].first - x);
+    int j = abs(tiles[0].second - y);
+    //std::cout << i << " | " << j<< std::endl;
+    return i+j;
+}
+
 
 void board::set_param(int r, int c){
     row = r;
     col = c;
+    dx = SCREEN_HEIGHT/row;
+    dy = SCREEN_WIDTH/col;
 }
 
-void board::draw_grid(int c, int r, sf::RenderWindow& window){
-    set_param(r,c);
-    int dy = SCREEN_HEIGHT/row;
-    int dx = SCREEN_WIDTH/col;
+void board::draw(sf::RenderWindow& window){
+    draw_grid(window);
+    draw_cursor(window);
+}
+
+void board::draw_grid(sf::RenderWindow& window){
     for(int i=0;i<row;i++){
     sf::Vertex hori_lines[]={
         sf::Vertex(sf::Vector2f(0,i*dy),sf::Color(70,70,70,255)),
@@ -29,20 +75,51 @@ void board::draw_grid(int c, int r, sf::RenderWindow& window){
         window.draw(vert_lines,2,sf::Lines);
     }
     
-    int a = sf::Mouse::getPosition(window).x/dx;
-    int b = sf::Mouse::getPosition(window).y/dy;
-
-    soldier(a,b,window);
+    int a = sf::Mouse::getPosition(window).x;
+    int b = sf::Mouse::getPosition(window).y;
+    
 }
 
-void board::soldier(int i, int j, sf::RenderWindow& window){
-    int dy = SCREEN_HEIGHT/row;
-    int dx = SCREEN_WIDTH/col;
+void board::soldier(int i, int j, sf::RenderWindow& window, sf::Color c){
+    int w = 15;
     sf::RectangleShape s;
-    s.setFillColor(sf::Color::Red); 
+    s.setFillColor(c); 
     s.setPosition(sf::Vector2f(dx*i,dy*j));
-    s.setSize(sf::Vector2f(dx-5, dy-5));
-
+    s.setSize(sf::Vector2f(dx, dy));
     window.draw(s);
 }
 
+
+void board::cursor(int i, int j, sf::RenderWindow& window, sf::Color c){
+    int w = 15;
+    sf::RectangleShape s;
+    s.setFillColor(c); 
+    s.setPosition(sf::Vector2f((dx*i)-(dx/w),dy*j));
+    s.setSize(sf::Vector2f((dx/w), dy));
+    window.draw(s);
+    s.setPosition(sf::Vector2f((dx*(i+1)),dy*j));
+    s.setSize(sf::Vector2f((dx/w), dy));
+    window.draw(s);
+    s.setPosition(sf::Vector2f((dx*i),(dy*j)-(dy/w)));
+    s.setSize(sf::Vector2f((dx), dy/w));
+    window.draw(s);
+    s.setPosition(sf::Vector2f((dx*i),dy*(j+1)));
+    s.setSize(sf::Vector2f((dx), dy/w));
+    window.draw(s);
+}
+
+sf::RectangleShape board::unit(int i, int j, sf::Color c){
+    int u = dx * 1/4;
+    sf::RectangleShape s;
+    s.setFillColor(c); 
+    s.setPosition(sf::Vector2f(dx*i+u,dy*j+u));
+    s.setSize(sf::Vector2f(dx/2, dy/2));
+    return s;
+}
+
+sf::RectangleShape board::move_unit(int i, int j, int x, int y, sf::RectangleShape u, sf::Color c){
+    u = unit(i+x, j+y, c);
+    units[i][j] = 0;
+    units[i+x][j+y] = 1;
+    return u;
+}

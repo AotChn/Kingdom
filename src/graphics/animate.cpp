@@ -3,6 +3,8 @@
 animate::animate(){
     window.create(sf::VideoMode(SCREEN_WIDTH,SCREEN_HEIGHT),"KINGDOM");
     window.setFramerateLimit(60);
+    b.set_param(10,10);
+    //std::cout << b.dx << " | " << b.dy << std::endl;
 }
 
 void animate::run(){
@@ -20,11 +22,12 @@ void animate::run(){
 }
 
 void animate::draw(){
-    b.draw_grid(25,25,window);
+    b.draw(window);
+    int a =  sf::Mouse::getPosition(window).x;
+
 }
 
 void animate::update(){
-
 }
 
 void animate::process_events(){
@@ -34,6 +37,13 @@ void animate::process_events(){
             case sf::Event::Closed:
             window.close();
             break;
+            case sf::Event::MouseButtonPressed:{
+            b.update();
+            b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+            }
+            break;
+
+            
         }
 
     }
