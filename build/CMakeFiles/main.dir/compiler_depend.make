@@ -317,6 +317,7 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/constants.h \
   /Users/Aot/Desktop/Kingdom/src/graphics/board.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/board.h \
+  /Users/Aot/Desktop/Kingdom/src/graphics/tile.h \
   /Users/Aot/Desktop/Kingdom/src/bool_source/bool_source.h \
   /Users/Aot/Desktop/Kingdom/src/data/binaryfiles.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/fstream \
@@ -476,6 +477,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /usr/local/include/SFML/System/Export.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/TargetConditionals.h:
+
+/Users/Aot/Desktop/Kingdom/src/graphics/tile.h:
 
 /usr/local/include/SFML/Config.hpp:
 

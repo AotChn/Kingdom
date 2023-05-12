@@ -5,43 +5,54 @@
 //	TILE INFO/ MANIPULATION
 //===========================================
 
-std::pair<int,int> board::sfml_to_tile(int coordx, int coordy){
-    std::pair<int,int> tile;
-    tile.first  = coordx/dx;
-    tile.second = coordy/dy;
-    return tile;
+tile board::sfml_to_tile(int coordx, int coordy){
+    tile t;
+    t.x  = coordx/dx;
+    t.y = coordy/dy;
+    return t;
 }
 
-void board::add(int coordx, int coordy){
-    if(tiles.empty())
-        tiles.push_back(sfml_to_tile(coordx, coordy));
+void board::add(int coordx, int coordy, int unused){
+    tiles.push_back(sfml_to_tile(coordx, coordy));
 }
+
+void board::add(tile t){
+    tiles.push_back(t);
+}
+
+void board::add(int i, int j){
+    tiles.push_back(tile(i,j));
+}
+
 
 int board::find_tile(int x, int y){
     return ((y*col)+x)+1;
 } 
 
-int board::find_tile(int coordx, int coordy, std::pair<int,int> tile){
-    tile.first = coordx/dx;
-    tile.second = coordy/dy;
-    return ((tile.second*4)+tile.first)+tile.second+1;
+int board::find_tile(int coordx, int coordy, tile t){
+    t.x = coordx/dx;
+    t.y = coordy/dy;
+    return ((t.y*4)+t.x)+t.y+1;
 } 
 
-int board::find_distance(std::pair<int,int> a, std::pair<int,int> b){
-    int i = abs(a.first - b.first);
-    int j = abs(a.second - b.second);
+int board::find_distance(tile a, tile b){
+    int i = abs(a.x - b.x);
+    int j = abs(a.y - b.y);
     return i+j;
 }
 
 int board::find_distance(){
-    std::pair<int,int> a = tiles[1];
-    //tiles.pop_back();
+    tile a = tiles[1];
     return find_distance(a, tiles[0]);
 }
 
+int board::find_distance(tile t){
+    return find_distance(t,tiles[0]);
+}
+
 int board::find_distance(int x, int y){
-    int i = abs(tiles[0].first - x);
-    int j = abs(tiles[0].second - y);
+    int i = abs(tiles[0].x - x);
+    int j = abs(tiles[0].y - y);
     return i+j;
 }
 

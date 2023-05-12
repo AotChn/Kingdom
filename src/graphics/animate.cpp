@@ -36,8 +36,13 @@ void animate::process_events(){
             window.close();
             break;
             case sf::Event::MouseButtonPressed:{
-            b.update();
-            b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+            if(b.is_idle()){
+                if(b.is_unit(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, 0))
+                    b.update();
+                }
+            
+            else 
+                b.update();
             }
             break;
 

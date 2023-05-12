@@ -21,7 +21,7 @@ private:
 //===========================================
 
 stat::stat(double p){
-	assert(p>=0);assert(p<-1);
+	// assert(p>=0);assert(p<-1);
 	probability = p; 
 }
 

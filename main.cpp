@@ -7,9 +7,9 @@
 
 
 int main(int argc, char **argv){
-    bears(); //network
-    //animate a;
-    //a.run();
+   // bears(); //network
+    animate a;
+    a.run();
     return 0;
 }
 
