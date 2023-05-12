@@ -198,7 +198,11 @@ int board::action(bool v, sf::RenderWindow& window){
     draw_units(window);
     draw_tile(c,d,window,sf::Color(212, 162, 25,150));
 
-    return v ? IDLE : ACTION;
+    if(v){
+        update();
+        return IDLE;}
+    else 
+        return ACTION;
 }
 
 void board::empty_tiles(){
