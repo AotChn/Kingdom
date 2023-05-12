@@ -145,6 +145,11 @@
 			},
 			{
 				"backtrace" : 3,
+				"fragment" : "/usr/local/lib/libsfml-network.2.5.1.dylib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
 				"fragment" : "/usr/local/lib/libsfml-system.2.5.1.dylib",
 				"role" : "libraries"
 			}

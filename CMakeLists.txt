@@ -73,6 +73,6 @@ ADD_EXECUTABLE(testB
 
 TARGET_LINK_LIBRARIES(basic_test gtest sfml-graphics sfml-window sfml-system)
 TARGET_LINK_LIBRARIES(testB gtest sfml-graphics sfml-window sfml-system)
-TARGET_LINK_LIBRARIES(main gtest sfml-graphics sfml-window sfml-system)
+TARGET_LINK_LIBRARIES(main gtest sfml-graphics sfml-window sfml-network sfml-system)
 
 

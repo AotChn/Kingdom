@@ -3,14 +3,19 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 #include "constants.h"
 #include "SFML/Graphics.hpp"
+#include "../bool_source/bool_source.h"
+
+
 enum cursor_ST {IDLE, H_MOVE, MOVE, ACTION};
 class board{
     public:
 
 //set up 
-    board() : valid(false){}
+    board() : cur_ST(0), valid(false){}
     void set_param(int r, int c);
     void init_map();
     
@@ -66,16 +71,14 @@ class board{
         cur_ST;
     bool valid;
     std::vector<int> u;
-    int banjo[10][10] = {}; // why cant i delete this array
     std::vector<std::pair<int,int>> tiles;
-    std::vector<int(board::*)(bool, sf::RenderWindow&)> s = {IDLE_ST,H_MOVE_ST,MOVE_ST,ACTION_ST};
+    std::vector<int(board::*)(bool, sf::RenderWindow&)> s = {IDLE_ST, H_MOVE_ST, MOVE_ST, ACTION_ST};
 };  
 
 
 void board::update(){
     valid = !valid;
 }
-
 
 void board::draw_cursor(sf::RenderWindow& window){
     cur_ST = (this->*s[cur_ST])(valid, window);
@@ -127,7 +130,7 @@ int board::h_move(bool v, sf::RenderWindow& window){
     window.draw(unit(tiles[0].first,tiles[0].second,sf::Color::Red));
     if(find_distance(i,j) < 5){
         draw_tile(i,j,window,sf::Color(51,78,232,200));
-        if(!v){
+        if(!v && u[find_tile(i,j)] != 1){
             tiles.push_back(std::pair<int,int>{i,j});
             return MOVE;
         }
@@ -167,7 +170,6 @@ int board::move(bool v, sf::RenderWindow& window){
         return IDLE;}
     else
         return MOVE;
-    
 }
 int board::action(bool v, sf::RenderWindow& window){
     int i = sf::Mouse::getPosition(window).x/dx;

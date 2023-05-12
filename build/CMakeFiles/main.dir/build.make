@@ -95,6 +95,7 @@ bin/main: CMakeFiles/main.dir/build.make
 bin/main: lib/libgtestd.a
 bin/main: /usr/local/lib/libsfml-graphics.2.5.1.dylib
 bin/main: /usr/local/lib/libsfml-window.2.5.1.dylib
+bin/main: /usr/local/lib/libsfml-network.2.5.1.dylib
 bin/main: /usr/local/lib/libsfml-system.2.5.1.dylib
 bin/main: CMakeFiles/main.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/Aot/Desktop/Kingdom/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/main"

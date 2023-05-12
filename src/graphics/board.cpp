@@ -129,9 +129,13 @@ void board::move_unit(int i, int j, int x, int y, sf::Color c){
 }
 
 void board::init_map(){
+    stat p;
+    p.set_probability(.1);
+
+    int t = rand() % 10 + 1;
     std::cout<< row*col << std::endl;
     for(int i=0;i<(row*col); i++){
-        if(i%3==0)
+        if(p.query())
             u.push_back(1);
         else
             u.push_back(0);

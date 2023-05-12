@@ -313,9 +313,29 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/constants.h \
   /Users/Aot/Desktop/Kingdom/src/graphics/board.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/board.h \
+  /Users/Aot/Desktop/Kingdom/src/graphics/../bool_source/bool_source.h \
   /Users/Aot/Desktop/Kingdom/src/data/binaryfiles.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/fstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/filesystem \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/stack \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/deque \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iomanip
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iomanip \
+  /Users/Aot/Desktop/Kingdom/src/network/socket.h \
+  /usr/local/include/SFML/Network.hpp \
+  /usr/local/include/SFML/Network/Ftp.hpp \
+  /usr/local/include/SFML/Network/Export.hpp \
+  /usr/local/include/SFML/Network/TcpSocket.hpp \
+  /usr/local/include/SFML/Network/Socket.hpp \
+  /usr/local/include/SFML/Network/SocketHandle.hpp \
+  /usr/local/include/SFML/Network/Http.hpp \
+  /usr/local/include/SFML/Network/IpAddress.hpp \
+  /usr/local/include/SFML/Network/Packet.hpp \
+  /usr/local/include/SFML/Network/SocketSelector.hpp \
+  /usr/local/include/SFML/Network/TcpListener.hpp \
+  /usr/local/include/SFML/Network/UdpSocket.hpp \
+  /Users/Aot/Desktop/Kingdom/network_sample/sample.h \
+  /Users/Aot/Desktop/Kingdom/network_sample/clientnetwork.cpp \
+  /Users/Aot/Desktop/Kingdom/network_sample/clientnetwork.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/thread \
+  /Users/Aot/Desktop/Kingdom/network_sample/servernetwork.cpp \
+  /Users/Aot/Desktop/Kingdom/network_sample/servernetwork.h

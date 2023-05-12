@@ -317,17 +317,59 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/constants.h \
   /Users/Aot/Desktop/Kingdom/src/graphics/board.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/board.h \
+  /Users/Aot/Desktop/Kingdom/src/bool_source/bool_source.h \
   /Users/Aot/Desktop/Kingdom/src/data/binaryfiles.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/fstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/filesystem \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/stack \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/deque \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iomanip
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iomanip \
+  /Users/Aot/Desktop/Kingdom/src/network/socket.h \
+  /usr/local/include/SFML/Network.hpp \
+  /usr/local/include/SFML/Network/Ftp.hpp \
+  /usr/local/include/SFML/Network/Export.hpp \
+  /usr/local/include/SFML/Network/TcpSocket.hpp \
+  /usr/local/include/SFML/Network/Socket.hpp \
+  /usr/local/include/SFML/Network/SocketHandle.hpp \
+  /usr/local/include/SFML/Network/Http.hpp \
+  /usr/local/include/SFML/Network/IpAddress.hpp \
+  /usr/local/include/SFML/Network/Packet.hpp \
+  /usr/local/include/SFML/Network/SocketSelector.hpp \
+  /usr/local/include/SFML/Network/TcpListener.hpp \
+  /usr/local/include/SFML/Network/UdpSocket.hpp \
+  /Users/Aot/Desktop/Kingdom/network_sample/sample.h \
+  /Users/Aot/Desktop/Kingdom/network_sample/clientnetwork.cpp \
+  /Users/Aot/Desktop/Kingdom/network_sample/clientnetwork.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/thread \
+  /Users/Aot/Desktop/Kingdom/network_sample/servernetwork.cpp \
+  /Users/Aot/Desktop/Kingdom/network_sample/servernetwork.h
 
+
+/Users/Aot/Desktop/Kingdom/network_sample/servernetwork.cpp:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/thread:
+
+/Users/Aot/Desktop/Kingdom/network_sample/clientnetwork.h:
+
+/Users/Aot/Desktop/Kingdom/network_sample/sample.h:
+
+/usr/local/include/SFML/Network/SocketSelector.hpp:
+
+/usr/local/include/SFML/Network/Packet.hpp:
+
+/usr/local/include/SFML/Network/IpAddress.hpp:
+
+/usr/local/include/SFML/Network/Socket.hpp:
+
+/usr/local/include/SFML/Network.hpp:
+
+/Users/Aot/Desktop/Kingdom/src/network/socket.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iomanip:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/filesystem:
+
+/Users/Aot/Desktop/Kingdom/src/bool_source/bool_source.h:
 
 /Users/Aot/Desktop/Kingdom/src/graphics/board.cpp:
 
@@ -374,6 +416,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /usr/local/include/SFML/Graphics/BlendMode.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__split_buffer:
+
+/usr/local/include/SFML/Network/Ftp.hpp:
 
 /usr/local/include/SFML/Window/Touch.hpp:
 
@@ -667,6 +711,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/machine/_mcontext.h:
 
+/usr/local/include/SFML/Network/TcpSocket.hpp:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/i386/signal.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_endian.h:
@@ -735,6 +781,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/climits:
 
+/usr/local/include/SFML/Network/Export.hpp:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/utility:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/istream:
@@ -748,6 +796,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/typeinfo:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__locale:
+
+/Users/Aot/Desktop/Kingdom/network_sample/clientnetwork.cpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/cstdlib:
 
@@ -770,6 +820,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /usr/local/include/SFML/Window/Joystick.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_types/_int64_t.h:
+
+/usr/local/include/SFML/Network/TcpListener.hpp:
 
 /usr/local/include/SFML/Window/Window.hpp:
 
@@ -809,6 +861,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_types/_rune_t.h:
 
+/usr/local/include/SFML/Network/UdpSocket.hpp:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_types/_intptr_t.h:
 
 /usr/local/include/SFML/System/Sleep.hpp:
@@ -818,6 +872,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_types/_ino_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_types/_sigset_t.h:
+
+/usr/local/include/SFML/Network/SocketHandle.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sys/_types/_fd_clr.h:
 
@@ -907,6 +963,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__debug:
 
+/usr/local/include/SFML/Network/Http.hpp:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/sched.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__tuple:
@@ -952,6 +1010,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__nullptr:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__string:
+
+/Users/Aot/Desktop/Kingdom/network_sample/servernetwork.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iostream:
 
