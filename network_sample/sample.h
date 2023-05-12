@@ -1,12 +1,14 @@
 #include "clientnetwork.cpp"
 #include "servernetwork.cpp"
+#include <string>
 
 
 int client(){
-    sf::IpAddress IP;
+    std::string IP;
      ClientNetwork client_network;
      std::cout << "enter IP: ";
      std::cin >> IP;
+     sf::IpAddress ip(IP);
      client_network.Connect(IP, 2525);
      client_network.Run();
      return 0;
