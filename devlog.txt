@@ -1,2 +1,6 @@
+aot dev log 
 05/10/2023 - set up sfml window and implemented cursor movement
 05/11/2023 - implemented move interface ; sample units , cursor state machine, and unit movement
+05/12/2023 - implemented range , more advanced movement, recognizes unit space, added tile struct
+
+things to look out for : need better cursor state machine 
