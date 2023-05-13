@@ -13,6 +13,13 @@ struct tile{
     int x;
     int y;
 
+    bool equal(tile& lhs, tile& rhs){
+        return lhs.x == rhs.x && lhs.y == rhs.y;
+    }
+
+    // bool operator==(const tile& lhs, const tile& rhs){
+    //     return lhs.x == rhs.x && lhs.y == rhs.y;
+    // }
 };
 
 

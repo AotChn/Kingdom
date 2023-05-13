@@ -106,6 +106,10 @@ void board::draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c){
     window.draw(s);
 }
 
+ void board::draw_tile(tile t, sf::RenderWindow& window, sf::Color c){
+    draw_tile(t.x, t.y, window, c);
+ }
+
 
 void board::cursor(int i, int j, sf::RenderWindow& window, sf::Color c){
     int w = 15;

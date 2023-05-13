@@ -26,11 +26,13 @@ class board{
 //===========================================
     
     void draw(sf::RenderWindow& window);
+    void draw_path(tile,sf::RenderWindow& window);
     void draw_cursor(sf::RenderWindow& window);
     void draw_grid(sf::RenderWindow& window);
     void draw_units(sf::RenderWindow& window);
     void draw_range(int range, sf::RenderWindow& window);
     void draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c);
+    void draw_tile(tile, sf::RenderWindow& window, sf::Color c);
     void cursor(int i, int j, sf::RenderWindow& window, sf::Color c);
 
 //===========================================
@@ -71,10 +73,11 @@ class board{
 //	BOOL UTILITIES
 //===========================================
     bool is_unit(int coordx, int coordy, int unused);
-    bool is_unit(tile);
+    bool is_unit(tile t,int i=0, int j=0){return u[find_tile(t.x+i,t.y+j)] > 0;}
     bool is_unit(int i, int j){return u[find_tile(i,j)] > 0;}
     bool in_range(int i, int j, int range){return find_distance(i,j) < range;}
     void empty_tiles();
+    void empty_tiles_one();
     bool is_idle(){return cur_ST == 0;}
 
 
@@ -148,7 +151,6 @@ int board::h_move(bool v, sf::RenderWindow& window){
     }
     window.draw(unit(tiles[0].x,tiles[0].y,sf::Color::Red));
     if(find_distance(i,j) < 5){
-        draw_tile(i,j,window,sf::Color(51,78,232,200));
         if(!v && u[find_tile(i,j)] != 1){
             tiles.push_back(tile(i,j));
             return MOVE;
@@ -157,9 +159,12 @@ int board::h_move(bool v, sf::RenderWindow& window){
             tiles.push_back(tile(i,j));
             return ACTION;
         }
+        draw_path(tile(i,j),window);
     }
-    else
+    else{
         cursor(i,j,window,sf::Color::Red);
+        empty_tiles_one();
+    }
 
     if(v)
         return H_MOVE;
@@ -173,8 +178,9 @@ int board::h_move(bool v, sf::RenderWindow& window){
 int board::move(bool v, sf::RenderWindow& window){
     int i = sf::Mouse::getPosition(window).x/dx,
         j = sf::Mouse::getPosition(window).y/dy,
+        s = tiles.size(),
         a = tiles[0].x, b = tiles[0].y, 
-        c = tiles[1].x, d = tiles[1].y;
+        c = tiles[s-1].x, d = tiles[s-1].y;
 
     move_unit(a,b,-(a-c),-(b-d), sf::Color::Red);
     draw_units(window);
@@ -193,7 +199,8 @@ int board::action(bool v, sf::RenderWindow& window){
     int i = sf::Mouse::getPosition(window).x/dx;
     int j = sf::Mouse::getPosition(window).y/dy;
     int a = tiles[0].x, b = tiles[0].y, 
-        c = tiles[1].x, d = tiles[1].y;
+        s = tiles.size(),
+        c = tiles[s-1].x, d = tiles[s-1].y;
     move_unit(a,b,-(a-c),-(b-d), sf::Color::Red);
     draw_units(window);
     draw_tile(c,d,window,sf::Color(212, 162, 25,150));
@@ -211,13 +218,49 @@ void board::empty_tiles(){
     }
 }
 
+void board::empty_tiles_one(){
+    while(tiles.size() > 1){
+        tiles.pop_back();
+    }
+}
+
 bool board::is_unit(int coordx, int coordy, int unused){
     return is_unit(sfml_to_tile(coordx, coordy));
 }
 
-bool board::is_unit(tile t){
-    return u[find_tile(t.x,t.y)] > 0;
+/* possible 
+we can figure out if we can reach i,j from x,y by finding the move vector <k,h>
+s.t. k = horizonal movemnt ; vertical axis movement
+we can then use the vector k,h and iterate for k and h until we find blocking 
+
+*/
+void board::draw_path(tile start, sf::RenderWindow& window){
+    int range = find_distance(start,tiles[0]);
+    int last = tiles.size()-1;
+    if(find_distance(start,tiles[last]) == 1){
+        if(!is_unit(start)){
+            tiles.push_back(start);
+        }
+    }
+    else if(find_distance(start,tiles[last-1]) == 1 && find_distance(start,tiles[0]) != 0){
+        tiles.pop_back();
+        std::cout<< "hitting";
+    }
+    std::cout<<tiles.size() << std::endl;
+    for(int i=1;i<tiles.size();i++){
+        draw_tile(tiles[i].x,tiles[i].y,window,sf::Color::Yellow);
+    }
 }
+
+/*
+
+x x x x 
+x o o x
+x o x x
+x o x x
+
+
+*/
 
 //cursor states 
 // idle -> click tile with own unit -> toggle movement -> click on valid movespace -> toggle action -> click action 
