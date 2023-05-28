@@ -1,6 +1,7 @@
 #include "clientnetwork.cpp"
 #include "servernetwork.cpp"
 
+using namespace std;
 
 int client(){
     sf::IpAddress IP;

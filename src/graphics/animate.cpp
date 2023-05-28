@@ -15,17 +15,17 @@ void animate::run(){
 }
 
  void animate::render(){
-    window.clear(sf::Color(20, 20, 20,255));
+    window.clear(BACKGROUND_DARK);
     draw();
     window.display();
 }
 
 void animate::draw(){
     b.draw(window);
-
 }
 
 void animate::update(){
+    b.update();
 }
 
 void animate::process_events(){
@@ -35,12 +35,17 @@ void animate::process_events(){
             case sf::Event::Closed:
             window.close();
             break;
-            case sf::Event::MouseButtonPressed:{
-            b.update();
-            b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+            case sf::Event::MouseButtonPressed:
+            {
+                b.cursor_click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                // b.update();
+                // b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
             }
             break;
-
+            case sf::Event::MouseMoved:
+            {
+                b.cursor_move(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+            }
         }
 
     }

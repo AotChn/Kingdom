@@ -8,8 +8,6 @@ class app{
     
     app(){}
     run();
-
-
 };
 
 #endif

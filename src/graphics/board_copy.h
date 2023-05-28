@@ -1,0 +1,136 @@
+#ifndef BOARD_COPY_H
+#define BOARD_COPY_H
+
+#include <iostream>
+#include <vector>
+#include <cstdlib>
+#include <Queue>
+#include <Map>
+#include <ctime>
+#include <SFML/Graphics.hpp>
+
+
+#include "../bool_source/bool_source.h"
+#include "../helper/pair_helper.h"
+#include "constants.h"
+
+
+enum cursor_ST {IDLE, H_MOVE, MOVE, ACTION};
+enum proc_FLAG {CLICK_P, MOVE_P};
+enum draw_FLAG {CURSOR_D, GRID_D, UNITS_D, RANGE_D};
+
+struct board_tile
+{
+    board_tile(bool _empty, int _mCost): empty(_empty), mCost(_mCost){}
+    bool empty = true;
+    int mCost = 1;
+};
+
+const int MAX_PORC = 2;
+const int MAX_DRAW = 4;
+
+class board{
+typedef std::pair<int,int> tile_t;
+
+public:
+//set up 
+    board() : cur_ST(0), valid(false){
+        for(auto x = 0; x < MAX_PORC; ++x){
+            proc_f[x] = false;
+        }
+
+        for(auto x = 0; x < MAX_DRAW; ++x){
+            draw_f[x] = false;
+        }
+    };
+    void set_param(int r, int c);
+    void init_map();
+    
+//===========================================
+//	DRAW : cursor, grid, units, range
+//===========================================
+    
+    void draw(sf::RenderWindow& window);
+    void draw_cursor(sf::RenderWindow& window);
+    void draw_grid(sf::RenderWindow& window);
+    void draw_units(sf::RenderWindow& window);          //Draw all the [units] on the window
+    void draw_range(int range, sf::RenderWindow& window);
+
+
+    void draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c);
+    void cursor(int i, int j, sf::RenderWindow& window, sf::Color c);
+
+//===========================================
+//	TILE INFO/ MANIPULATION
+//===========================================
+    
+    bool is_valid(tile_t tile); //tile is valid?
+    bool empty(tile_t tile);    //tile is empty?
+    int mCost(tile_t  tile);    //return movement cost to that tile
+
+    tile_t sfml_to_tile(int coordx, int coordy);
+    std::vector<tile_t> get_neighbors(tile_t tile);
+    std::vector<tile_t> get_range(int range, tile_t tile);
+
+    int find_tile(int coordx, int coordy);
+    int find_tile(int coordx, int coordy, tile_t tile);
+    int find_distance();
+    int find_distance(int x, int y);
+    int find_distance(tile_t a, tile_t b);
+
+    sf::RectangleShape unit(int i, int j, sf::Color c);
+    void move_unit(int i, int j, int x, int y, sf::Color c);
+
+//===========================================
+//	CURSOR STATES
+//===========================================
+    
+    void update();
+
+    void cursor_move(int i, int j);
+    void cursor_click(int i, int j);
+
+    int idle();
+    int move();
+    int h_move();
+    int action();
+
+    int(board::*IDLE_ST)() = &board::idle;
+    int(board::*MOVE_ST)() = &board::move;
+    int(board::*H_MOVE_ST)() = &board::h_move;
+    int(board::*ACTION_ST)() = &board::action;
+
+
+private: 
+    int row,
+        col,
+        dy,
+        dx,
+        cur_ST;
+    bool draw_f[4];
+    bool proc_f[2];
+    tile_t cur;
+
+    bool valid;     
+    std::vector<int> u;     //array of all units states
+    std::vector<tile_t> tiles;  //buffer of clicked tiles
+    std::vector<board_tile> board_info;  //recording information of each tile
+
+    std::vector<int(board::*)()> s = {IDLE_ST, H_MOVE_ST, MOVE_ST, ACTION_ST};
+};  
+
+
+
+// cursor states 
+// idle -> click tile with own unit -> toggle movement -> click on valid movespace -> toggle action -> click action 
+
+// idle - hovering screen and moves cursor with mouse 
+// click title with own unit - opens all movement spaces possible highlighted 
+// toggle movement - when hovering over tilespace that is valid will shift color 
+// click on valid movespace - unit will go there and open actions menu 
+// toggle action - hovering over options space will move the cursor 
+// click action - will perform the action [attack, stay]
+
+
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SERVERNETWORK_H
+#define SERVERNETWORK_H
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -30,3 +31,4 @@ public:
      void ManagePackets();
      void Run();
 };
+#endif

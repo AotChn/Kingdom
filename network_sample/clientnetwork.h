@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CLIENTNETWORK_H
+#define CLIENTNETWORK_H
 #include <iostream>
 #include <thread>
 #include <chrono>
@@ -19,3 +20,4 @@ public:
      void SendPacket(sf::Packet &);
      void Run();
 };
+#endif
