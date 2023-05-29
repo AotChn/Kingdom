@@ -49,28 +49,30 @@ std::vector<std::pair<int,int>> board::get_neighbors(std::pair<int,int> tile){
     return v;
 }
 
-std::vector<std::pair<int,int>> board::get_range(int range, std::pair<int,int> tile){
+board::path_t board::get_range(int range, std::pair<int,int> tile){
     std::queue<std::pair<tile_t, int>> q;
-    std::vector<board::tile_t> r;
+    path_t r;
     std::map<tile_t, int> seen; 
 
+    tile_t cur = tile;
     int ap = range;
     q.push(make_pair<tile_t, int>(tile, ap));
-    seen[q.front().first];
+    seen[cur] = ap;
 
     while (!q.empty())
     {   
-        if(seen.find(q.front().first) == seen.end()){
-            seen[q.front().first];
-            r.push_back(q.front().first);
+        ap = q.front().second;
+        if(seen.find(cur) == seen.end()){
+            seen[q.front().first] = ap;
         }
         
-        ap = q.front().second;
         if(ap != 0){            
             for(auto x : get_neighbors(q.front().first)){
-                if(empty(x) || u[find_tile(x.first,x.second)] == 1){
-                    if(seen.find(q.front().first) != seen.end())
-                        q.push(make_pair<tile_t, int>(x, ap - mCost(x)));
+                if(empty(x) || u[find_tile(x.first,x.second)] == 1){ //if the tile is passible
+                    if(seen.find(q.front().first) != seen.end() || seen[q.front().first] < ap){ //if never been here || been here but this time cost less ap
+                        q.push(make_pair<tile_t, int>(x, ap - mCost(x))); //step into this tile
+                        r[x] = cur;//and set the tile's parent to current tile
+                    }
                 }
 
             }   
@@ -85,28 +87,34 @@ int board::find_tile(int x, int y){
     return ((y*col)+x)+1;
 } 
 
+int board::find_tile(tile_t tile){
+    return find_tile(tile.first, tile.second);
+}
+
 int board::find_tile(int coordx, int coordy, std::pair<int,int> tile){
     tile.first = coordx/dx;
     tile.second = coordy/dy;
     return ((tile.second*col)+tile.first)+1;
 } 
 
-int board::find_distance(std::pair<int,int> a, std::pair<int,int> b){
-    int i = abs(a.first - b.first);
-    int j = abs(a.second - b.second);
-    return i+j;
+int board::find_distance(std::pair<int,int> start, std::pair<int,int> des){
+    auto path = get_range(5, start);
+    int ap = 0;
+    for(auto last = des; last != start; last = path[last]){
+        ap += board_info[find_tile(last)].mCost;
+    }
+    return ap;
 }
 
 int board::find_distance(){
-    std::pair<int,int> a = tiles[1];
+    std::pair<int,int> des = tiles[1];
     //tiles.pop_back();
-    return find_distance(a, tiles[0]);
+    return find_distance(tiles[0], des);
 }
 
 int board::find_distance(int x, int y){
-    int i = abs(tiles[0].first - x);
-    int j = abs(tiles[0].second - y);
-    return i+j;
+
+    return find_distance(tiles[0], tile_t(x,y));
 }
 
 void board::set_param(int r, int c){
@@ -218,7 +226,8 @@ void board::draw_range(int range, sf::RenderWindow& window){
 
     draw_tile(tiles[0].first, tiles[0].second, window, RANGE_YELLOW); //the center
     for(auto x : get_range(range,tiles[0])){
-        draw_tile(x.first, x.second, window, RANGE_BLUE);
+        
+        draw_tile(x.first.first, x.first.second, window, RANGE_BLUE);
     }
 }
 
@@ -310,7 +319,7 @@ int board::h_move(){
     if(proc_f[RELEASE_P]){
         proc_f[RELEASE_P] = false;
         if(same_tile(tiles[1], cur)){
-            if(find_distance(tiles[1].first, tiles[1].second) < 5){
+            if(find_distance(tiles[1].first, tiles[1].second) < 5 && board_info[find_tile(cur)].empty){
                 cur_ST = MOVE;
                 return (this->*s[cur_ST])();
             }
@@ -366,7 +375,6 @@ int board::action(){
 
 void board::update(){
     cur_ST = (this->*s[cur_ST])();
-
 }
 
 

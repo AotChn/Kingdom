@@ -29,10 +29,13 @@ struct board_tile
     bool empty = true;
     int mCost = 1;
 };
+
+
 class board{
-typedef std::pair<int,int> tile_t;
 
 public:
+    typedef std::pair<int,int> tile_t;
+    typedef std::map<tile_t, tile_t> path_t;
 //set up 
     board() : cur_ST(0), hold(false){
         for(auto x = 0; x < MAX_PORC; ++x){
@@ -70,13 +73,14 @@ public:
     
     tile_t sfml_to_tile(int coordx, int coordy);
     std::vector<tile_t> get_neighbors(tile_t tile);
-    std::vector<tile_t> get_range(int range, tile_t tile);
+    path_t get_range(int range, tile_t tile);
 
     int find_tile(int coordx, int coordy);
-    int find_tile(int coordx, int coordy, tile_t tile);
+    int find_tile(tile_t tile);
+    int find_tile(int coordx, int coordy, tile_t holder);
     int find_distance();
     int find_distance(int x, int y);
-    int find_distance(tile_t a, tile_t b);
+    int find_distance(tile_t start, tile_t des);
 
     sf::RectangleShape unit(int i, int j, sf::Color c);
     void move_unit(int i, int j, int x, int y, sf::Color c);
