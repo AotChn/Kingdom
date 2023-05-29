@@ -29,22 +29,25 @@ bool board::same_tile(tile_t t1, tile_t t2){
 std::vector<std::pair<int,int>> board::get_neighbors(std::pair<int,int> tile){
     std::vector<tile_t> v;
 
-    tile_t dir = make_pair(tile.first + 1, tile.second);
+    //North
+    tile_t dir = make_pair(tile.first, tile.second + 1); 
     if(is_valid(dir))
         v.push_back(dir);
 
-    dir = make_pair(tile.first - 1, tile.second);
+    //East
+    dir = make_pair(tile.first + 1, tile.second);
     if(is_valid(dir))
         v.push_back(dir);
 
+    //South
     dir = make_pair(tile.first, tile.second - 1);
     if(is_valid(dir))
         v.push_back(dir);
 
-    dir = make_pair(tile.first, tile.second + 1);
+    //West
+    dir = make_pair(tile.first - 1, tile.second);
     if(is_valid(dir))
         v.push_back(dir);
-
 
     return v;
 }
@@ -173,11 +176,15 @@ void board::init_map(){
             u.push_back(1);
             board_info.push_back(board_tile(false, 1));
         }
+        else if(p.query()){
+            u.push_back(0);
+            board_info.push_back(board_tile(false, 999));
+        }
         else{
             u.push_back(0);
             board_info.push_back(board_tile(true, 1));
-
         }
+
     }
 
     assert(board_info.size() == row * col && "board size is incorrect");
@@ -196,6 +203,12 @@ void board::draw(sf::RenderWindow& window){
     }
     else if(!hold) draw_f[GRID_D] = true;
 
+    if(draw_f[OBSTACLE_D]){
+        draw_obstacle(window);
+    }
+    else if(!hold) draw_f[OBSTACLE_D]= false;
+
+
     if(draw_f[UNITS_D]){
         draw_units(window);
     }
@@ -208,10 +221,13 @@ void board::draw(sf::RenderWindow& window){
     }
     else if(!hold) draw_f[RANGE_D] = true;
     
+    if(draw_f[PATH_D]){
+        draw_path(window);
+    }
+    else if(!hold) draw_f[PATH_D] = true;
 
     if(draw_f[CURSOR_D]){
         draw_cursor(window);
-
     }
     else if(!hold) draw_f[CURSOR_D] = true;
 
@@ -307,6 +323,34 @@ void board::draw_cursor(sf::RenderWindow& window){
     }
 }
 
+void board::draw_obstacle(sf::RenderWindow& window){
+    for(int k=0; k<row; k++)
+        for(int f=0; f<col; f++)
+            if(board_info[find_tile(k,f)].mCost == 999){ //object temporary set to be mCost 999
+                draw_tile(k,f,window, sf::Color::White);
+            }     
+
+}
+
+void board::draw_path(sf::RenderWindow& window){
+    if(same_tile(cur, tiles[0]) || board_info[find_tile(cur)].mCost == 999) return; //if current == starts || current is an object
+
+    auto range = get_range(4, tiles[0]);
+    auto all = get_range_all(tiles[0]);
+    
+    auto last = cur;
+    last = all[last];
+    
+    for(; last != tiles[0]; last = all[last]){  // draw the path
+
+        if(find_distance(tiles[0], last) >= 5){ //outside range
+            draw_tile(last.first,last.second, window, sf::Color(100,100, 0, 150));
+        }
+        else                                    //within range
+            draw_tile(last.first,last.second, window, sf::Color::Yellow);
+    }
+}
+
 void board::cursor(int i, int j, sf::RenderWindow& window, sf::Color c){
     int w = 15;
     sf::RectangleShape s;
@@ -333,6 +377,7 @@ void board::cursor(int i, int j, sf::RenderWindow& window, sf::Color c){
 
 int board::idle(){
     draw_f[RANGE_D] = false; //won't draw "range"
+    draw_f[PATH_D] = false; //won't draw "path"
 
     if(proc_f[RELEASE_P]){ //if mouse release
         proc_f[RELEASE_P] = false;
@@ -421,6 +466,7 @@ int board::action(){
 }
 
 void board::update(){
+    // std::cout << "[Update]-> cur_ST = " << cur_ST << "\n";
     cur_ST = (this->*s[cur_ST])();
 }
 

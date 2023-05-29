@@ -17,11 +17,11 @@
 
 enum cursor_ST {IDLE, H_MOVE, MOVE, ACTION};
 enum proc_FLAG {CLICK_P, MOVE_P, RELEASE_P};
-enum draw_FLAG {CURSOR_D, GRID_D, UNITS_D, RANGE_D};
+enum draw_FLAG {CURSOR_D, GRID_D, UNITS_D, RANGE_D, PATH_D, OBSTACLE_D};
 
 
 const int MAX_PORC = 3;
-const int MAX_DRAW = 4;
+const int MAX_DRAW = 6;
 
 struct board_tile
 {
@@ -58,7 +58,8 @@ public:
     void draw_grid(sf::RenderWindow& window);
     void draw_units(sf::RenderWindow& window);          //Draw all the [units] on the window
     void draw_range(sf::RenderWindow& window);
-
+    void draw_path(sf::RenderWindow& window);
+    void draw_obstacle(sf::RenderWindow& window);
     void draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c);
     void cursor(int i, int j, sf::RenderWindow& window, sf::Color c);
 
@@ -130,8 +131,8 @@ private:
         dy,
         dx,
         cur_ST;
-    bool draw_f[4];
-    bool proc_f[2];
+    bool draw_f[MAX_DRAW];
+    bool proc_f[MAX_PORC];
     tile_t cur;     //Cursor position
 
     bool hold;     
