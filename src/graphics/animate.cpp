@@ -43,7 +43,10 @@ void animate::process_events(){
                 // b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
                 break;
             }
-            
+        case sf::Event::MouseButtonReleased:{
+                b.cursor_release(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
+            }   
         case sf::Event::MouseMoved:{
                 b.cursor_move(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
                 break;

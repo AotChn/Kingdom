@@ -21,6 +21,11 @@ int board::mCost(std::pair<int,int> tile){
     return board_info[find_tile(tile.first, tile.second)].mCost;
 }
 
+bool board::same_tile(tile_t t1, tile_t t2){
+    return (t2 == t1 && t2.second == t1.second );
+}
+
+
 std::vector<std::pair<int,int>> board::get_neighbors(std::pair<int,int> tile){
     std::vector<tile_t> v;
 
@@ -142,25 +147,25 @@ void board::draw(sf::RenderWindow& window){
     if(draw_f[GRID_D]){
         draw_grid(window);
     }
-    else draw_f[GRID_D] = true;
+    else if(!hold) draw_f[GRID_D] = true;
 
     if(draw_f[UNITS_D]){
         draw_units(window);
     }
-    else draw_f[UNITS_D]= false;
+    else if(!hold) draw_f[UNITS_D]= false;
 
 
     if(draw_f[RANGE_D]){
         draw_range(4, window);
     }
-    else draw_f[RANGE_D] = true;
+    else if(!hold) draw_f[RANGE_D] = true;
     
 
     if(draw_f[CURSOR_D]){
         draw_cursor(window);
 
     }
-    else draw_f[CURSOR_D] = true;
+    else if(!hold) draw_f[CURSOR_D] = true;
 
 }
 
@@ -232,7 +237,7 @@ void board::draw_cursor(sf::RenderWindow& window){
     case H_MOVE:{
 
         if(find_distance(cur.first, cur.second) < 5){
-            if(cur == tiles[0] && cur.second == tiles[0].second || u[find_tile(cur.first,cur.second)] == 1)
+            if( same_tile(cur, tiles[0]) || u[find_tile(cur.first,cur.second)] == 1 )
                  cursor(cur.first,cur.second, window, sf::Color::Red);
             else draw_tile(cur.first,cur.second,window, SELECTED_BLUE); 
         }
@@ -269,21 +274,31 @@ void board::cursor(int i, int j, sf::RenderWindow& window, sf::Color c){
 //	EVENT
 //===========================================
 
+
 int board::idle(){
     draw_f[RANGE_D] = false;
+
+    if(proc_f[RELEASE_P]){
+        proc_f[RELEASE_P] = false;
+        if(!tiles.empty() && same_tile(tiles[0], cur)){
+            return H_MOVE;
+        }
+        return IDLE;
+    }
+
+    if(proc_f[CLICK_P]){
+        proc_f[CLICK_P] = false;
+        if(tiles.empty() && u[find_tile(cur.first, cur.second)] == 1){
+            tiles.push_back(cur);
+        }
+        return IDLE;
+    }
 
     if(proc_f[MOVE_P]){
         proc_f[MOVE_P] = false;
         return IDLE;
     }
 
-    if(proc_f[CLICK_P]){
-        proc_f[CLICK_P] = false;
-        if(u[find_tile(cur.first, cur.second)] == 1){
-            tiles.push_back(cur);
-            return H_MOVE;
-        }
-    }
 
 
     return IDLE;
@@ -292,49 +307,52 @@ int board::idle(){
 
 int board::h_move(){
     
+    if(proc_f[RELEASE_P]){
+        proc_f[RELEASE_P] = false;
+        if(same_tile(tiles[1], cur)){
+            if(find_distance(tiles[1].first, tiles[1].second) < 5){
+                cur_ST = MOVE;
+                return (this->*s[cur_ST])();
+            }
+            //else
+                tiles.clear();
+            return IDLE;
+        }
+        else tiles.pop_back();
+        return H_MOVE;
+    }
+
+        
+    if(proc_f[CLICK_P]){
+        proc_f[CLICK_P] = false;
+
+        if(tiles.size() == 1){
+            tiles.push_back(cur);
+        }
+
+        return H_MOVE;
+    }
+
+    
     if(proc_f[MOVE_P]){
         proc_f[MOVE_P] = false;
         return H_MOVE;
     }
     
     
-    if(proc_f[CLICK_P]){
-        proc_f[CLICK_P] = false;
-
-        if(find_distance(cur.first, cur.second) < 5 && empty(cur)){
-            tiles.push_back(cur);
-            return MOVE;
-        }
-        else
-            tiles.clear();
-        return IDLE;
-    }
-    
     return H_MOVE;
 }
 
 int board::move(){
     draw_f[RANGE_D] = false;
-    // int i = sf::Mouse::getPosition(window).x/dx,
-    //     j = sf::Mouse::getPosition(window).y/dy,
-    //     a = tiles[0].first, b = tiles[0].second, 
-    //     c = tiles[1].first, d = tiles[1].second;
+    int a = tiles[0].first, b = tiles[0].second, 
+        c = tiles[1].first, d = tiles[1].second;
 
-    // move_unit(a,b,-(a-c),-(b-d), sf::Color::Red);
-    // draw_units(window);
-    // cursor(c, d, window, sf::Color(180,75,189,250));
-    // cursor(i,j,window,sf::Color::Blue);
-    // draw_tile(c+1,d-1,window,sf::Color(180,75,189,150));
-    // draw_tile(c+1,d,window,sf::Color(180,75,189,150));
     
-    // if(v){
-    //     update();
-    //     while(!tiles.empty()){
-    //         tiles.pop_back();
-    //     }
-    //     return IDLE;}
-    // else
-    //     return MOVE;
+    move_unit(a, b, c, d, sf::Color::Red);
+    tiles.clear();
+
+    return IDLE;
 }
 
 int board::action(){
@@ -352,9 +370,14 @@ void board::update(){
 }
 
 
+
 void board::move_unit(int i, int j, int x, int y, sf::Color c){
-   u[find_tile(i,j)] = 0;
-   u[find_tile(i+x, j+y)] = 1;
+    int a = find_tile(i, j), b = find_tile(x,y);
+    u[a] = 0;
+    board_info[a].empty = true;
+    u[b] = 1;
+    board_info[b].empty = false;
+
 }
 
 sf::RectangleShape board::unit(int i, int j, sf::Color c){
@@ -375,13 +398,15 @@ void board::cursor_move(int x, int y){
 void board::cursor_click(int x, int y){
     cur = sfml_to_tile(x,y);
     proc_f[CLICK_P] =  true;
-
+    hold = true;
 }
 
 void board::cursor_idle(){
-    if(!valid){
-
-        valid = !valid;
-    }
     
+}
+
+void board::cursor_release(int x, int y){
+    cur = sfml_to_tile(x,y);
+    proc_f[RELEASE_P] =  true;
+    hold = false;
 }
