@@ -204,7 +204,7 @@ void board::draw(sf::RenderWindow& window){
 
     if(draw_f[RANGE_D]){
         // std::cout << "[Drew]-> ready to draw Range\n";
-        draw_range(4, window);
+        draw_range(window);
     }
     else if(!hold) draw_f[RANGE_D] = true;
     
@@ -262,12 +262,12 @@ void board::draw_units(sf::RenderWindow& window){
     }
 }
 
-void board::draw_range(int range, sf::RenderWindow& window){
+void board::draw_range(sf::RenderWindow& window){
 
     draw_tile(tiles[0].first, tiles[0].second, window, RANGE_YELLOW); //the center
     // std::cout << "[Drew]-> [Draw_range] -> tiles[0]: "; printf("(%d,%d)\n", tiles[0].first, tiles[0].second); 
     // std::cout << "[Drew]-> [Draw_range] -> cur: "; printf("(%d,%d)\n", cur.first, cur.second); 
-    for(auto x : get_range(range, tiles[0])){
+    for(auto x : get_range(4, tiles[0])){
     // for(auto x : get_range_all(tiles[0])){
         draw_tile(x.first.first, x.first.second, window, RANGE_BLUE);
     }

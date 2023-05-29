@@ -57,8 +57,7 @@ public:
     void draw_cursor(sf::RenderWindow& window);
     void draw_grid(sf::RenderWindow& window);
     void draw_units(sf::RenderWindow& window);          //Draw all the [units] on the window
-    void draw_range(int range, sf::RenderWindow& window);
-
+    void draw_range(sf::RenderWindow& window);
 
     void draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c);
     void cursor(int i, int j, sf::RenderWindow& window, sf::Color c);
@@ -75,6 +74,7 @@ public:
     std::vector<tile_t> get_neighbors(tile_t tile);
     path_t get_range(int range, tile_t tile);
     path_t get_range_all(tile_t tile);
+
     int find_tile(int coordx, int coordy);
     int find_tile(tile_t tile);
     int find_tile(int coordx, int coordy, tile_t holder);
@@ -124,7 +124,7 @@ public:
     int(board::*ACTION_ST)() = &board::action;
 
 
-// private: 
+private: 
     int row,
         col,
         dy,
