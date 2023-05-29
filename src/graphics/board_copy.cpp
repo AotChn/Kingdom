@@ -83,6 +83,7 @@ board::path_t board::get_range(int range, std::pair<int,int> tile){
     return r;
 }
 
+
 int board::find_tile(int x, int y){
     return ((y*col)+x)+1;
 } 
@@ -120,8 +121,8 @@ int board::find_distance(int x, int y){
 void board::set_param(int r, int c){
     row = r;
     col = c;
-    dx = SCREEN_HEIGHT/row;
-    dy = SCREEN_WIDTH/col;
+    dx = SCREEN_WIDTH/col;
+    dy = SCREEN_HEIGHT/row;
     init_map();
 }
 
@@ -187,14 +188,14 @@ void board::draw_grid(sf::RenderWindow& window){
 
     for(int i=0;i<row;i++){
         hori_lines[0].position = sf::Vector2f(0,i*dy);
-        hori_lines[1].position = sf::Vector2f(dy*row,i*dy);
+        hori_lines[1].position = sf::Vector2f(dx*col,i*dy);
 
         window.draw(hori_lines,2,sf::Lines);
     }
 
     for(int i=0;i<col;i++){    
         vert_lines[0].position = sf::Vector2f(i*dx,0);
-        vert_lines[1].position = sf::Vector2f(i*dx,dx*col);
+        vert_lines[1].position = sf::Vector2f(i*dx,dy*row);
         window.draw(vert_lines,2,sf::Lines);
     }
     
@@ -285,20 +286,20 @@ void board::cursor(int i, int j, sf::RenderWindow& window, sf::Color c){
 
 
 int board::idle(){
-    draw_f[RANGE_D] = false;
+    draw_f[RANGE_D] = false; //won't draw "range"
 
-    if(proc_f[RELEASE_P]){
+    if(proc_f[RELEASE_P]){ //if mouse release
         proc_f[RELEASE_P] = false;
-        if(!tiles.empty() && same_tile(tiles[0], cur)){
-            return H_MOVE;
+        if(!tiles.empty() && same_tile(tiles[0], cur)){ //if chose a unit && current pos == chosen unit
+            return H_MOVE; //go to h_move
         }
-        return IDLE;
+        return IDLE; //else remain idle
     }
 
-    if(proc_f[CLICK_P]){
+    if(proc_f[CLICK_P]){ //if mouse click
         proc_f[CLICK_P] = false;
-        if(tiles.empty() && u[find_tile(cur.first, cur.second)] == 1){
-            tiles.push_back(cur);
+        if(tiles.empty() && u[find_tile(cur.first, cur.second)] == 1){ //if never choose a unit &&  current position contains unit
+            tiles.push_back(cur); //push this unit into the buffer
         }
         return IDLE;
     }

@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 const unsigned int SCREEN_WIDTH = 1000;
-const unsigned int SCREEN_HEIGHT = 1000;
+const unsigned int SCREEN_HEIGHT = 800;
 
 const sf::Color GRID_GREY(70,70,70,255);
 const sf::Color SELECTED_BLUE(51,78,232,200);
