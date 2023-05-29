@@ -28,7 +28,7 @@ void runUdpClient(unsigned short port);
 /// \return Application exit code
 ///
 ////////////////////////////////////////////////////////////
-int bear()
+int net()
 {
     char ans;
     std::cout<< "are you [c] or [s]";
@@ -42,11 +42,11 @@ int bear()
 }
 
 void runUdpServer(unsigned short port){
-    sf::IpAddress a("192.168.139.107");
+    sf::IpAddress a("198.188.4.248");
     sf::UdpSocket socket;
     if (socket.bind(port) != sf::Socket::Status::Done)
         return;
-    char buffer[] = "whats up brian"; 
+    char buffer[] = "whats up jane"; 
 
     if (socket.send(buffer, sizeof(buffer), a, port) != sf::Socket::Done){
         std::cout<< "ITS NOT BINDING FOR SOME REASON!!!!!";
@@ -58,7 +58,7 @@ void runUdpServer(unsigned short port){
 void runUdpClient(unsigned short port){
     char buffer[128];
     std::size_t Received;
-    sf::IpAddress a("192.168.139.107");
+    sf::IpAddress a("198.188.4.248");
     sf::UdpSocket socket;
     unsigned short Port = 5000;
     if (socket.receive(buffer, sizeof(buffer), Received, a, Port) != sf::Socket::Done)

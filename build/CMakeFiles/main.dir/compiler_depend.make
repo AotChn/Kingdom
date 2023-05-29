@@ -319,11 +319,18 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/board.h \
   /Users/Aot/Desktop/Kingdom/src/graphics/tile.h \
   /Users/Aot/Desktop/Kingdom/src/bool_source/bool_source.h \
+  /Users/Aot/Desktop/Kingdom/src/data/board_paths.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/queue \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/deque \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/cmath \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/math.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/math.h \
+  /Users/Aot/Desktop/Kingdom/src/graphics/tile.h \
+  /Users/Aot/Desktop/Kingdom/src/graphics/board.h \
   /Users/Aot/Desktop/Kingdom/src/data/binaryfiles.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/fstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/filesystem \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/stack \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/deque \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iomanip \
   /Users/Aot/Desktop/Kingdom/src/network/socket.h \
   /usr/local/include/SFML/Network.hpp \
@@ -369,6 +376,14 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/iomanip:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/filesystem:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/math.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/cmath:
+
+/Users/Aot/Desktop/Kingdom/src/data/board_paths.h:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/math.h:
 
 /Users/Aot/Desktop/Kingdom/src/bool_source/bool_source.h:
 
@@ -925,6 +940,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
 /Users/Aot/Desktop/Kingdom/src/graphics/board.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/cassert:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/queue:
 
 /usr/local/include/SFML/Graphics/Font.hpp:
 

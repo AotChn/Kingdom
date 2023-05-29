@@ -1,5 +1,5 @@
 #include <iostream>
-#include "src/graphics/animate.cpp"
+#include "src/graphics/animate.h"
 #include "src/data/binaryfiles.h"
 #include "src/network/socket.h"
 #include <SFML/Network.hpp>

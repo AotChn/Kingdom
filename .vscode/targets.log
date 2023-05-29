@@ -6,11 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
-make: *** No rule to make target `all'.  Stop.
 
-
-# Make data base, printed on Thu May 11 01:55:27 2023
+# Make data base, printed on Wed May 24 13:01:56 2023
 
 # Variables
 
@@ -47,11 +44,11 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.JohMeGC5tP/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.Bt9qd4031p/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-DISPLAY = /private/tmp/com.apple.launchd.v0VfWXVsdQ/org.macosforge.xquartz:0
+DISPLAY = /private/tmp/com.apple.launchd.IZBXrnzC0T/org.macosforge.xquartz:0
 # environment
 PWD = /Users/Aot/Desktop/Kingdom
 # environment
@@ -63,7 +60,7 @@ HOME = /Users/Aot
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/Aot/Library/Application Support/Code/CachedData/704ed70d4fd1c6bd6342c436f1ede30d1cff4710
+VSCODE_CODE_CACHE_PATH = /Users/Aot/Library/Application Support/Code/CachedData/b3e4e68a0bc097f0ae7907b217c1119af9e03435
 # environment
 LOGNAME = Aot
 # environment
@@ -90,6 +87,9 @@ USER = Aot
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
+ 
+make: *** No rule to make target `all'.  Stop.
+
 # default
 .VARIABLES := 
 # environment
@@ -97,7 +97,7 @@ TMPDIR = /var/folders/8w/5nykv9dn2yscdrxp_vs76cyr0000gr/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/Aot/Library/Application Support/Code/1.77-main.sock
+VSCODE_IPC_HOOK = /Users/Aot/Library/Application Support/Code/1.78-main.sock
 # environment
 MallocNanoZone = 0
 # makefile
@@ -107,11 +107,9 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.2623271305.2623271311
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.2736120910.2736120930
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
-# environment
-VSCODE_L10N_BUNDLE_LOCATION = 
 # automatic
 +F = $(notdir $+)
 # environment
@@ -135,9 +133,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 2426
+VSCODE_PID = 78981
 # variable set hash-table stats:
-# Load=61/1024=6%, Rehash=0, Collisions=1/82=1%
+# Load=60/1024=6%, Rehash=0, Collisions=1/81=1%
 
 # Pattern-specific Variable Values
 
@@ -145,9 +143,9 @@ VSCODE_PID = 2426
 
 # Directories
 
-# . (device 16777227, inode 2678461170): 13 files, no impossibilities.
+# . (device 16777225, inode 2678461170): 15 files, no impossibilities.
 
-# 13 files, no impossibilities in 1 directories.
+# 15 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -219,6 +217,6 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Thu May 11 01:55:27 2023
+# Finished Make data base on Wed May 24 13:01:56 2023
 
  

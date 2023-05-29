@@ -155,5 +155,11 @@ void board::init_map(){
         else
             u.push_back(0);
     }
+    // std::cout<< H.get_closed_size() << std::endl;
+    // H.print_bool();
+    H.set_board(u); 
+    std::cout<< H.get_closed_size() << std::endl;
+    H.print_bool();
+    
 }
 

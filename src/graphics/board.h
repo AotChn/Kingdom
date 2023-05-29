@@ -9,6 +9,7 @@
 #include "tile.h"
 #include "SFML/Graphics.hpp"
 #include "../bool_source/bool_source.h"
+#include "../data/board_paths.h"
 
 //sorry for scuffed code 
 
@@ -17,7 +18,7 @@ class board{
     public:
 
 //set up 
-    board() : cur_ST(0), valid(false){}
+    board() : cur_ST(0), valid(false){ }
     void set_param(int r, int c);
     void init_map();
     
@@ -54,6 +55,7 @@ class board{
     sf::RectangleShape unit(int i, int j, sf::Color c);
     void move_unit(int i, int j, int x, int y, sf::Color c);
 
+
 //===========================================
 //	CURSOR STATES
 //===========================================
@@ -88,6 +90,7 @@ class board{
         dx,
         cur_ST;
     bool valid;
+    board_paths H;
     std::vector<int> u;
     std::vector<tile> tiles;
     std::vector<int(board::*)(bool, sf::RenderWindow&)> s = {IDLE_ST, H_MOVE_ST, MOVE_ST, ACTION_ST};
@@ -159,7 +162,9 @@ int board::h_move(bool v, sf::RenderWindow& window){
             tiles.push_back(tile(i,j));
             return ACTION;
         }
-        draw_path(tile(i,j),window);
+        //draw_path(tile(i,j),window);
+            
+        
     }
     else{
         cursor(i,j,window,sf::Color::Red);
@@ -182,12 +187,17 @@ int board::move(bool v, sf::RenderWindow& window){
         a = tiles[0].x, b = tiles[0].y, 
         c = tiles[s-1].x, d = tiles[s-1].y;
 
+        // if(H.find_path(tiles[0],tile(i,j))) // BUGGED AF 
+        //     draw_tile(tiles[0],window,sf::Color::Yellow);
+        // else
+        //     draw_tile(tiles[0],window,sf::Color::Red);
+
     move_unit(a,b,-(a-c),-(b-d), sf::Color::Red);
     draw_units(window);
     cursor(c, d, window, sf::Color(180,75,189,250));
     cursor(i,j,window,sf::Color::Blue);
-    draw_tile(c+1,d-1,window,sf::Color(180,75,189,150)); //pink
-    draw_tile(c+1,d,window,sf::Color(180,75,189,150)); //pink
+   // draw_tile(c+1,d-1,window,sf::Color(180,75,189,150)); //pink
+    //draw_tile(c+1,d,window,sf::Color(180,75,189,150)); //pink
     
     if(v){
         update();
@@ -242,15 +252,13 @@ void board::draw_path(tile start, sf::RenderWindow& window){
             tiles.push_back(start);
         }
     }
-    else if(find_distance(start,tiles[last-1]) == 1 && find_distance(start,tiles[0]) != 0){
-        tiles.pop_back();
-        std::cout<< "hitting";
-    }
     std::cout<<tiles.size() << std::endl;
     for(int i=1;i<tiles.size();i++){
         draw_tile(tiles[i].x,tiles[i].y,window,sf::Color::Yellow);
     }
 }
+
+
 
 /*
 
@@ -258,6 +266,13 @@ x x x x
 x o o x
 x o x x
 x o x x
+
+
+x O O O O D
+O x x x x O
+O O O O x O
+O O O O x O
+T O O O x O
 
 
 */
@@ -272,6 +287,9 @@ x o x x
 // toggle action - hovering over options space will move the cursor 
 // click action - will perform the action [attack, stay]
 
+//im not sure why this shit does not work 
+//the path finding uses too much cpu? power 
+//for some reason there is an offset in the bool graph but other than that it it is correct 
 
 
 #endif
