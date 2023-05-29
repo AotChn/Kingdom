@@ -29,25 +29,30 @@ void animate::update(){
 }
 
 void animate::process_events(){
+
     sf::Event event;
     while(window.pollEvent(event)){
         switch(event.type){
-            case sf::Event::Closed:
+        case sf::Event::Closed:
             window.close();
             break;
-            case sf::Event::MouseButtonPressed:
-            {
+
+        case sf::Event::MouseButtonPressed:{
                 b.cursor_click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
                 // b.update();
                 // b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
             }
-            break;
-            case sf::Event::MouseMoved:
-            {
+            
+        case sf::Event::MouseMoved:{
                 b.cursor_move(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
+            }
+
+        default:{
+                b.cursor_idle();
             }
         }
-
     }
 }
 

@@ -40,7 +40,7 @@ public:
         }
 
         for(auto x = 0; x < MAX_DRAW; ++x){
-            draw_f[x] = false;
+            draw_f[x] = true;
         }
     };
     void set_param(int r, int c);
@@ -81,14 +81,20 @@ public:
     sf::RectangleShape unit(int i, int j, sf::Color c);
     void move_unit(int i, int j, int x, int y, sf::Color c);
 
+
 //===========================================
-//	CURSOR STATES
+//	GATHER INFO
+//===========================================
+
+    void cursor_click(int x, int y);    //called if cursor click, inputting position info
+    void cursor_move(int x, int y);     //called if cursor moved, inputting position info
+    void cursor_idle();                 //called if cursor didn't move
+//===========================================
+//	PROCCESS Event
 //===========================================
     
     void update();
 
-    void cursor_move(int i, int j);
-    void cursor_click(int i, int j);
 
     int idle();
     int move();
@@ -101,7 +107,7 @@ public:
     int(board::*ACTION_ST)() = &board::action;
 
 
-private: 
+// private: 
     int row,
         col,
         dy,
@@ -109,7 +115,7 @@ private:
         cur_ST;
     bool draw_f[4];
     bool proc_f[2];
-    tile_t cur;
+    tile_t cur;     //Cursor position
 
     bool valid;     
     std::vector<int> u;     //array of all units states
