@@ -74,7 +74,7 @@ public:
     tile_t sfml_to_tile(int coordx, int coordy);
     std::vector<tile_t> get_neighbors(tile_t tile);
     path_t get_range(int range, tile_t tile);
-
+    path_t get_range_all(tile_t tile);
     int find_tile(int coordx, int coordy);
     int find_tile(tile_t tile);
     int find_tile(int coordx, int coordy, tile_t holder);

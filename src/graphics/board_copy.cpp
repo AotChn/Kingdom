@@ -10,7 +10,7 @@ std::pair<int,int> board::sfml_to_tile(int coordx, int coordy){
 }
 
 bool board::is_valid(std::pair<int,int> tile){
-    return tile.first >=0 && tile.first < row && tile.second >=0 && tile.second < col;
+    return tile.first >=0 && tile.first < col && tile.second >=0 && tile.second < row;
 }
 
 bool board::empty(std::pair<int,int> tile){
@@ -50,6 +50,7 @@ std::vector<std::pair<int,int>> board::get_neighbors(std::pair<int,int> tile){
 }
 
 board::path_t board::get_range(int range, std::pair<int,int> tile){
+    //Sorry this is not dijkstra but just bredth-first search
     std::queue<std::pair<tile_t, int>> q;
     path_t r;
     std::map<tile_t, int> seen; 
@@ -61,15 +62,16 @@ board::path_t board::get_range(int range, std::pair<int,int> tile){
 
     while (!q.empty())
     {   
+        cur = q.front().first;
         ap = q.front().second;
         if(seen.find(cur) == seen.end()){
             seen[q.front().first] = ap;
         }
         
         if(ap != 0){            
-            for(auto x : get_neighbors(q.front().first)){
+            for(auto x : get_neighbors(cur)){
                 if(empty(x) || u[find_tile(x.first,x.second)] == 1){ //if the tile is passible
-                    if(seen.find(q.front().first) != seen.end() || seen[q.front().first] < ap){ //if never been here || been here but this time cost less ap
+                    if(seen.find(x) == seen.end() || seen[q.front().first] < ap){ //if never been here || been here but this time cost less ap
                         q.push(make_pair<tile_t, int>(x, ap - mCost(x))); //step into this tile
                         r[x] = cur;//and set the tile's parent to current tile
                     }
@@ -83,9 +85,43 @@ board::path_t board::get_range(int range, std::pair<int,int> tile){
     return r;
 }
 
+board::path_t board::get_range_all(tile_t tile){
+    std::queue<std::pair<tile_t, int>> q;
+    path_t r;
+    std::map<tile_t, int> seen; 
+
+    tile_t cur = tile;
+    int ap = 0;
+    q.push(make_pair<tile_t, int>(tile, ap));
+    seen[cur] = ap;
+
+    while (!q.empty())
+    {   
+        ap = q.front().second;
+        cur = q.front().first;
+        if(seen.find(cur) == seen.end()){
+            seen[q.front().first] = ap;
+        }
+        
+          
+        for(auto x : get_neighbors(q.front().first)){
+            if(empty(x) || u[find_tile(x.first,x.second)] == 1){ //if the tile is passible
+                if(seen.find(x) == seen.end() || seen[q.front().first] > ap + mCost(x)){ //if never been here || been here but this time cost less ap
+                    q.push(make_pair<tile_t, int>(x, ap + mCost(x))); //step into this tile
+                    r[x] = cur;//and set the tile's parent to current tile
+                }
+            }
+
+        }   
+        
+
+        q.pop();
+    }
+    return r;
+}
 
 int board::find_tile(int x, int y){
-    return ((y*col)+x)+1;
+    return ((y*row)+x);
 } 
 
 int board::find_tile(tile_t tile){
@@ -99,7 +135,7 @@ int board::find_tile(int coordx, int coordy, std::pair<int,int> tile){
 } 
 
 int board::find_distance(std::pair<int,int> start, std::pair<int,int> des){
-    auto path = get_range(5, start);
+    auto path = get_range_all(start);
     int ap = 0;
     for(auto last = des; last != start; last = path[last]){
         ap += board_info[find_tile(last)].mCost;
@@ -143,6 +179,8 @@ void board::init_map(){
 
         }
     }
+
+    assert(board_info.size() == row * col && "board size is incorrect");
 }
 
 
@@ -165,6 +203,7 @@ void board::draw(sf::RenderWindow& window){
 
 
     if(draw_f[RANGE_D]){
+        // std::cout << "[Drew]-> ready to draw Range\n";
         draw_range(4, window);
     }
     else if(!hold) draw_f[RANGE_D] = true;
@@ -226,8 +265,10 @@ void board::draw_units(sf::RenderWindow& window){
 void board::draw_range(int range, sf::RenderWindow& window){
 
     draw_tile(tiles[0].first, tiles[0].second, window, RANGE_YELLOW); //the center
-    for(auto x : get_range(range,tiles[0])){
-        
+    // std::cout << "[Drew]-> [Draw_range] -> tiles[0]: "; printf("(%d,%d)\n", tiles[0].first, tiles[0].second); 
+    // std::cout << "[Drew]-> [Draw_range] -> cur: "; printf("(%d,%d)\n", cur.first, cur.second); 
+    for(auto x : get_range(range, tiles[0])){
+    // for(auto x : get_range_all(tiles[0])){
         draw_tile(x.first.first, x.first.second, window, RANGE_BLUE);
     }
 }
@@ -245,14 +286,19 @@ void board::draw_cursor(sf::RenderWindow& window){
         }
     
     case H_MOVE:{
+        // std::cout << "[Drew]->[draw_cursor]->Entering H move\n";
+        // std::cout << "[Drew]->[draw_cursor]-> dis == " <<find_distance(cur.first, cur.second) << "\n";
 
         if(find_distance(cur.first, cur.second) < 5){
+
             if( same_tile(cur, tiles[0]) || u[find_tile(cur.first,cur.second)] == 1 )
                  cursor(cur.first,cur.second, window, sf::Color::Red);
             else draw_tile(cur.first,cur.second,window, SELECTED_BLUE); 
         }
-        else
+        else{
+
             cursor(cur.first,cur.second, window, sf::Color::Red);
+        }
         break;  
     }
 
