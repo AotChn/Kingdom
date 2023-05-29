@@ -96,3 +96,22 @@ void ServerNetwork::Run()
 }
 
 
+/*
+     Sending game packets 
+
+     The  next step in this is being able to time the packet data that is being set 
+     in this way we would be able to ensure that all the data is sent in an efficent 
+     manner. 
+
+     To achieve this we can create a vector time to first time the packet out and then 
+     when we recieve we can ping to server and to client and calculate the amount of time 
+     it takes to be able to ping back and forth.
+
+     I wonder if the necessary type of data we should send are char arrays or 
+     can we send full files to replace other files such as binary files. Im thinking 
+     that binary files transfer could potentially be too large and cause a lag in the 
+     servers but also it would reduce disk reads and fully just transfer in one go.
+
+*/
+
+//TODO: Send binary file packets .

@@ -20,7 +20,7 @@ int server(){
      return 0;
 }
 
-int bears(){
+int network(){
  char ct = 's';
 	cout << "s / c \n"; // s - server / c - client
 	cin >> ct;
