@@ -228,6 +228,7 @@ CMakeFiles/main.dir/main.cpp.o: /Users/Aot/Desktop/Kingdom/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/bitset \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.1.sdk/usr/include/c++/v1/__bit_reference \
+  /Users/Aot/Desktop/Kingdom/src/graphics/animate.cpp \
   /Users/Aot/Desktop/Kingdom/src/graphics/animate.h \
   /usr/local/include/SFML/Graphics.hpp \
   /usr/local/include/SFML/Window.hpp /usr/local/include/SFML/System.hpp \

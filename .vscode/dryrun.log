@@ -1,6 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/Aot/Desktop/Kingdom'
-make: Leaving directory `/Users/Aot/Desktop/Kingdom'
- 
-make: *** No targets specified and no makefile found.  Stop.
-

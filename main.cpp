@@ -1,5 +1,5 @@
 #include <iostream>
-#include "src/graphics/animate.h"
+#include "src/graphics/animate.cpp"
 #include "src/data/binaryfiles.h"
 #include "src/network/socket.h"
 #include <SFML/Network.hpp>
@@ -7,9 +7,9 @@
 
 
 int main(int argc, char **argv){
-   network(); //network
-    // animate a;
-    // a.run();
-    // return 0;
+   //network(); //network
+     animate a;
+     a.run();
+     return 0;
 }
 
