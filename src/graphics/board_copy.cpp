@@ -1,7 +1,7 @@
 #include "board_copy.h"
 
 //===========================================
-//	TILE INFO/ MANIPULATION
+//	TILE INFO/ MANIPULATION (BASIC)
 //===========================================
 
 
@@ -17,15 +17,21 @@ bool board::empty(std::pair<int,int> tile){
     return board_info[find_tile(tile.first, tile.second)].empty;
 }
 
-int board::mCost(std::pair<int,int> tile){
-    return board_info[find_tile(tile.first, tile.second)].mCost;
-}
-
 bool board::same_tile(tile_t t1, tile_t t2){
     return (t2 == t1 && t2.second == t1.second );
 }
 
+bool board::is_passable(tile_t tile){
+    return empty(tile) || unit_q.find(tile) != unit_q.end(); 
+}
 
+int board::mCost(std::pair<int,int> tile){
+    return board_info[find_tile(tile.first, tile.second)].mCost;
+}
+
+//===========================================
+//  TILE INFO / MANIP (ADVANCE)
+//===========================================
 std::vector<std::pair<int,int>> board::get_neighbors(std::pair<int,int> tile){
     std::vector<tile_t> v;
 
@@ -70,15 +76,14 @@ board::path_t board::get_range(int range, std::pair<int,int> tile){
         if(seen.find(cur) == seen.end()){
             seen[q.front().first] = ap;
         }
-        
         if(ap != 0){            
             for(auto x : get_neighbors(cur)){
-                if(empty(x) || u[find_tile(x.first,x.second)] == 1){ //if the tile is passible
-                    if(seen.find(x) == seen.end() || seen[q.front().first] < ap){ //if never been here || been here but this time cost less ap
-                        q.push(make_pair<tile_t, int>(x, ap - mCost(x))); //step into this tile
-                        r[x] = cur;//and set the tile's parent to current tile
-                    }
+              
+                if( is_passable(x) &&  ( seen.find(x) == seen.end() || seen[q.front().first] < ap ) ){ //if never been here || been here but this time cost less ap
+                    q.push( make_pair<tile_t, int>( x, ap - mCost(x) ) ); //step into this tile (push ( coordinate, remaining ap ) )
+                    r[x] = cur;//and set the tile's parent to current tile
                 }
+            
 
             }   
         }
@@ -105,14 +110,11 @@ board::path_t board::get_range_all(tile_t tile){
         if(seen.find(cur) == seen.end()){
             seen[q.front().first] = ap;
         }
-        
-          
+                  
         for(auto x : get_neighbors(q.front().first)){
-            if(empty(x) || u[find_tile(x.first,x.second)] == 1){ //if the tile is passible
-                if(seen.find(x) == seen.end() || seen[q.front().first] > ap + mCost(x)){ //if never been here || been here but this time cost less ap
-                    q.push(make_pair<tile_t, int>(x, ap + mCost(x))); //step into this tile
-                    r[x] = cur;//and set the tile's parent to current tile
-                }
+            if( is_passable(x) && ( seen.find(x) == seen.end() || seen[q.front().first] > ap + mCost(x) ) ){ //if never been here || been here but this time cost less ap
+                q.push(make_pair<tile_t, int>(x, ap + mCost(x))); //step into this tile, push(coordinate, current ap) ( used to move to this tile )
+                r[x] = cur;//and set the tile's parent to current tile
             }
 
         }   
@@ -169,22 +171,19 @@ void board::init_map(){
     Stat p;
     p.set_probability(.1);
 
-    int t = rand() % 10 + 1;
-    std::cout<< row*col << std::endl;
-    for(int i=0;i<(row*col); i++){
-        if(p.query()){
-            u.push_back(1);
-            board_info.push_back(board_tile(false, 1));
+    for( int y = 0; y < row; ++y ){
+        for(int x = 0; x < col; ++x){
+            if(p.query()){
+                unit_q[tile_t(x,y)] = Unit(tile_t(x,y), 0);
+                board_info.push_back(board_tile(false, 1));
+            }
+            else if(p.query()){
+                board_info.push_back(board_tile(false, 999));
+            }
+            else{
+                board_info.push_back(board_tile(true, 1));
+            }
         }
-        else if(p.query()){
-            u.push_back(0);
-            board_info.push_back(board_tile(false, 999));
-        }
-        else{
-            u.push_back(0);
-            board_info.push_back(board_tile(true, 1));
-        }
-
     }
 
     assert(board_info.size() == row * col && "board size is incorrect");
@@ -269,12 +268,11 @@ void board::draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c){
 }
 
 void board::draw_units(sf::RenderWindow& window){
-    for(int k=0; k<row; k++){
-        for(int f=0; f<col; f++){
-            if(u[find_tile(k,f)] == 1){
-                window.draw(unit(k,f,sf::Color::Red));
-            }     
-        }
+    int x,y;
+    for(auto unit : unit_q){
+        x = unit.first.first;
+        y = unit.first.second;
+        window.draw(board::unit( x,y,sf::Color::Red ));
     }
 }
 
@@ -294,7 +292,7 @@ void board::draw_cursor(sf::RenderWindow& window){
     {
     
     case IDLE:{
-            if(u[find_tile(cur.first,cur.second)] == 1) 
+            if( unit_q.find(cur) != unit_q.end() ) 
                 cursor(cur.first,cur.second, window, sf::Color::Green);
             else 
                 cursor(cur.first,cur.second, window, sf::Color::Red);
@@ -307,12 +305,11 @@ void board::draw_cursor(sf::RenderWindow& window){
 
         if(find_distance(cur.first, cur.second) < 5){
 
-            if( same_tile(cur, tiles[0]) || u[find_tile(cur.first,cur.second)] == 1 )
+            if( same_tile(cur, tiles[0]) || unit_q.find(cur) != unit_q.end() ) 
                  cursor(cur.first,cur.second, window, sf::Color::Red);
             else draw_tile(cur.first,cur.second,window, SELECTED_BLUE); 
         }
         else{
-
             cursor(cur.first,cur.second, window, sf::Color::Red);
         }
         break;  
@@ -324,8 +321,8 @@ void board::draw_cursor(sf::RenderWindow& window){
 }
 
 void board::draw_obstacle(sf::RenderWindow& window){
-    for(int k=0; k<row; k++)
-        for(int f=0; f<col; f++)
+    for(int k=0; k<col; k++)
+        for(int f=0; f<row; f++)
             if(board_info[find_tile(k,f)].mCost == 999){ //object temporary set to be mCost 999
                 draw_tile(k,f,window, sf::Color::White);
             }     
@@ -389,7 +386,11 @@ int board::idle(){
 
     if(proc_f[CLICK_P]){ //if mouse click
         proc_f[CLICK_P] = false;
-        if(tiles.empty() && u[find_tile(cur.first, cur.second)] == 1){ //if never choose a unit &&  current position contains unit
+        
+        // printf("[Idle] -> [Click_P] tile info: empty? %d, mCost? %d, is_passable? %d\n", 
+        board_info[find_tile(cur)].empty, board_info[find_tile(cur)].mCost, is_passable(cur));
+
+        if(tiles.empty() && unit_q.find(cur) != unit_q.end()){ //if never choose a unit &&  current position contains unit
             tiles.push_back(cur); //push this unit into the buffer
         }
         return IDLE;
@@ -474,9 +475,12 @@ void board::update(){
 
 void board::move_unit(int i, int j, int x, int y, sf::Color c){
     int a = find_tile(i, j), b = find_tile(x,y);
-    u[a] = 0;
+    tile_t _a(i,j), _b(x,y);
+
+    unit_q[_b] = unit_q[_a];
+    unit_q.erase(_a);
+
     board_info[a].empty = true;
-    u[b] = 1;
     board_info[b].empty = false;
 
 }
@@ -489,7 +493,6 @@ sf::RectangleShape board::unit(int i, int j, sf::Color c){
     s.setSize(sf::Vector2f(dx/2, dy/2));
     return s;
 }
-
 
 void board::cursor_move(int x, int y){
     cur = sfml_to_tile(x,y);

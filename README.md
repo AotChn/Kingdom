@@ -1,8 +1,9 @@
 # Comment to Last Committ :
-    added conecpts: obstacles, paths
-    Thought the obstacles are temporary added and drawn as white block.
-    obstacles are intended to be unit entity OR tile entity;
-
+    5/29/2023: 
+        added:
+            -Unit Class
+            - bool board::u[] -> Map<cord_t, Unit_t> board::unit_q
+            
 # Concepts:
     Tile entity:
         var: mCost, coordinate(x,y), empty?
@@ -18,4 +19,7 @@
     Unit
     
 # Diaglogue 
-    5/29/2023: 
+    5/28/2023:
+        added conecpts: obstacles, paths
+        Though the obstacles are temporary added and drawn as white block.
+        obstacles are intended to be unit entity OR tile entity;

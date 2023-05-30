@@ -9,9 +9,10 @@
 #include <ctime>
 #include <SFML/Graphics.hpp>
 
-
+#include "object/unit/unit.h"
 #include "../bool_source/bool_source.h"
 #include "../helper/pair_helper.h"
+
 #include "constants.h"
 
 
@@ -67,7 +68,9 @@ public:
 //	TILE INFO/ MANIPULATION
 //===========================================
     bool same_tile(tile_t t1, tile_t t2);
-    bool is_valid(tile_t tile); //tile is valid?
+    bool is_valid(tile_t tile);     //tile is valid?
+    bool is_passable(tile_t tile);  //unit can pass through?
+
     bool empty(tile_t tile);    //tile is empty?
     int mCost(tile_t  tile);    //return movement cost to that tile
     
@@ -136,7 +139,8 @@ private:
     tile_t cur;     //Cursor position
 
     bool hold;     
-    std::vector<int> u;     //array of all units states
+    std::map<cord_t, Unit> unit_q; //array of all units
+
     std::vector<tile_t> tiles;  //buffer of clicked tiles
     std::vector<board_tile> board_info;  //recording information of each tile
 
