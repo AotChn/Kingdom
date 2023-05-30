@@ -50,7 +50,7 @@ public:
     void init_map();
     
 //===========================================
-//	DRAW : cursor, grid, units, range
+//	DRAW : cursor, grid, units, range, path, obstacle
 //===========================================
     
     void draw(sf::RenderWindow& window);
