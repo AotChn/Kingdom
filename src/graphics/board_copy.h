@@ -10,8 +10,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "object/unit/unit.h"
-#include "../bool_source/bool_source.h"
 #include "../helper/pair_helper.h"
+#include "../bool_source/bool_source.h"
+#include "../observer/Window_iobserver.h"
 
 #include "constants.h"
 
@@ -32,12 +33,17 @@ struct board_tile
 };
 
 
-class board{
+class board : 
+public Window_Observer
+{
 
 public:
     typedef std::pair<int,int> tile_t;
     typedef std::map<tile_t, tile_t> path_t;
-//set up 
+//===========================================
+//  Big 3, Set up 
+//===========================================
+    
     board() : cur_ST(0), hold(false){
         for(auto x = 0; x < MAX_PORC; ++x){
             proc_f[x] = false;
@@ -67,12 +73,6 @@ public:
 //===========================================
 //	TILE INFO/ MANIPULATION
 //===========================================
-    bool same_tile(tile_t t1, tile_t t2);
-    bool is_valid(tile_t tile);     //tile is valid?
-    bool is_passable(tile_t tile);  //unit can pass through?
-
-    bool empty(tile_t tile);    //tile is empty?
-    int mCost(tile_t  tile);    //return movement cost to that tile
     
     tile_t sfml_to_tile(int coordx, int coordy);
     std::vector<tile_t> get_neighbors(tile_t tile);
@@ -100,32 +100,33 @@ public:
     void cursor_release(int x, int y);
 
 //===========================================
-//	PROCCESS Event : requires external input(RET), do not require external input (DRET)
+//	PROCCESS Event 
 //===========================================
-    
     void update();
+    void Update(sf::RenderWindow& window, int event) override;
 
 
     int idle(); 
     int h_move();
     int action();
-    /*
-        idle and hmove are RET event:
-        it have different action depending on the user event(Cursor click/move/idle);
-        so it requires update to get the latest info, it is checked every frame.
-    */
+
     int move();
-    /*
-        move is NRET event:
-        when in this state, the object already have enough information to move the pieces on the board, 
-        so it it would not take a frame and wait for next update, instead called with in hmove right after
-        we knew where the piece moves to.
-    */
+
 
     int(board::*IDLE_ST)() = &board::idle;
     int(board::*MOVE_ST)() = &board::move;
     int(board::*H_MOVE_ST)() = &board::h_move;
     int(board::*ACTION_ST)() = &board::action;
+//===========================================
+//  BOOL SRC
+//===========================================
+
+    bool same_tile(tile_t t1, tile_t t2);
+    bool is_valid(tile_t tile);     //tile is valid?
+    bool is_passable(tile_t tile);  //unit can pass through?
+
+    bool empty(tile_t tile);    //tile is empty?
+    int mCost(tile_t  tile);    //return movement cost to that tile
 
 
 private: 

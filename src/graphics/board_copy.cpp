@@ -388,7 +388,7 @@ int board::idle(){
         proc_f[CLICK_P] = false;
         
         // printf("[Idle] -> [Click_P] tile info: empty? %d, mCost? %d, is_passable? %d\n", 
-        board_info[find_tile(cur)].empty, board_info[find_tile(cur)].mCost, is_passable(cur));
+        // board_info[find_tile(cur)].empty, board_info[find_tile(cur)].mCost, is_passable(cur));
 
         if(tiles.empty() && unit_q.find(cur) != unit_q.end()){ //if never choose a unit &&  current position contains unit
             tiles.push_back(cur); //push this unit into the buffer
@@ -469,6 +469,10 @@ int board::action(){
 void board::update(){
     // std::cout << "[Update]-> cur_ST = " << cur_ST << "\n";
     cur_ST = (this->*s[cur_ST])();
+}
+
+void board::Update(sf::RenderWindow& window, int event){
+    
 }
 
 
