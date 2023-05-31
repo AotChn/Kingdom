@@ -1,8 +1,6 @@
 # Comment to Last Committ :
-    5/29/2023: 
-        added:
-            -Unit Class
-            - bool board::u[] -> Map<cord_t, Unit_t> board::unit_q
+    added window_observer and window_subject
+    change the structure of processing event in animate & board.
             
 # Concepts:
     Tile entity:
@@ -19,6 +17,10 @@
     Unit
     
 # Diaglogue 
+    5/29/2023: 
+        added:
+            -Unit Class
+            - bool board::u[] -> Map<cord_t, Unit_t> board::unit_q
     5/28/2023:
         added conecpts: obstacles, paths
         Though the obstacles are temporary added and drawn as white block.
