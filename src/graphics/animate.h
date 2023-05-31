@@ -4,7 +4,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "constants.h"
-#include "board_copy.h"
 #include "../observer/Window_iobserver.h"
 
 class animate: public Window_Subject{
@@ -18,7 +17,6 @@ class animate: public Window_Subject{
     void process_events();
 
     private: 
-    board b;
     sf::RenderWindow window;
 }; 
 

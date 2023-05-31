@@ -472,7 +472,34 @@ void board::update(){
 }
 
 void board::Update(sf::RenderWindow& window, int event){
+
+    switch (event)
+    {
+        case sf::Event::MouseButtonPressed:{
+                cursor_click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                update();
+                // b.update();
+                // b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
+            }
+        case sf::Event::MouseButtonReleased:{
+                cursor_release(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                update();
+                break;
+            }   
+        case sf::Event::MouseMoved:{
+                cursor_move(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
+            }
     
+    default:
+        break;
+    }
+    update();
+    
+    if(event == Draw)
+        draw(window);
+
 }
 
 
