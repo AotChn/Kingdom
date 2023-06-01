@@ -8,10 +8,9 @@
 // #include <SFML/Graphics.hpp>
 
 #include "src/graphics/animate.h"
-#include "src/graphics/board_copy.h"
+#include "src/graphics/board/board_copy.h"
 
-int  Window_Observer::_static_number = 0;
-bool Window_Subject::_debug = false;
+
 int main(int argc, char **argv){
 
     animate game;

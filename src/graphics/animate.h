@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "constants.h"
-#include "../observer/Window_iobserver.h"
+#include "observer/Window_Observer.h"
 
 class animate: public Window_Subject{
     public: 

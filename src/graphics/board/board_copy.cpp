@@ -164,6 +164,9 @@ void board::set_param(int r, int c){
     col = c;
     dx = SCREEN_WIDTH/col;
     dy = SCREEN_HEIGHT/row;
+    
+    onBoard::DX = dx;
+    onBoard::DY = dy;
     init_map();
 }
 
@@ -268,11 +271,8 @@ void board::draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c){
 }
 
 void board::draw_units(sf::RenderWindow& window){
-    int x,y;
     for(auto unit : unit_q){
-        x = unit.first.first;
-        y = unit.first.second;
-        window.draw(board::unit( x,y,sf::Color::Red ));
+        unit.second.draw(window);
     }
 }
 

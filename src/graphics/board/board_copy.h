@@ -9,12 +9,11 @@
 #include <ctime>
 #include <SFML/Graphics.hpp>
 
-#include "object/unit/unit.h"
+#include "../../bool_source/bool_source.h"
+#include "../object/unit/unit.h"
 #include "../helper/pair_helper.h"
-#include "../bool_source/bool_source.h"
-#include "../observer/Window_iobserver.h"
-
-#include "constants.h"
+#include "../observer/Window_Observer.h"
+#include "../constants.h"
 
 
 enum cursor_ST {IDLE, H_MOVE, MOVE, ACTION};
