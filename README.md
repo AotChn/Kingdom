@@ -1,8 +1,10 @@
+
 # Comment to Last Committ :
-    added window_observer and window_subject
-    change the structure of processing event in animate & board.
+    decopule things within board: cursor, terrain, unit, grids
+    and create corresponding classes
+    Decopuling is made in new_board instead board.h file
             
-# Concepts:
+# Concepts :
     Tile entity:
         var: mCost, coordinate(x,y), empty?
             empty?: is there any entity on that tile
@@ -13,10 +15,26 @@
             mCost: if other friendly units want to pass through the tile of this unit standing, how much mCost will increase/decrease
     Controlable Unit (Player Units? Living Unit?) Vs Not-Controlable Unit(Obstacle? Dead Unit?)
 
-# Objects (Classes)
+# Objects (Classes) :
     Unit
-    
-# Diaglogue 
+
+# Folder_Tree (src only) :
+    ├─src
+    │  ├─app
+    │  ├─bool_source
+    │  ├─data
+    │  ├─graphics
+    │  │  ├─board
+    │  │  ├─helper
+    │  │  ├─object
+    │  │  │  └─unit
+    │  │  └─observer
+    │  ├─network
+    │  └─temp
+# Diaglogue :
+    5/30/2023;
+        added window_observer and window_subject
+        change the structure of processing event in animate & board.
     5/29/2023: 
         added:
             -Unit Class

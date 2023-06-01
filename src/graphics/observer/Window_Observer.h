@@ -29,7 +29,7 @@ public:
   //INFO TRANSMIT
   //=========================
   
-  virtual void Update(sf::RenderWindow& window, int event) = 0;
+  virtual void onNotify(sf::RenderWindow& window, int event) = 0;
   
   //=========================
   //DEBUG MSG
@@ -110,7 +110,7 @@ public:
       How_many_observer();
     auto w = _head;
     while(w !=nullptr){
-      w->_data->Update(window, event);
+      w->_data->onNotify(window, event);
       w = w->_next;
     }
 

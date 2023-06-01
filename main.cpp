@@ -8,19 +8,24 @@
 // #include <SFML/Graphics.hpp>
 
 #include "src/graphics/animate.h"
-#include "src/graphics/board/board_copy.h"
+#include "src/graphics/board/new_board.h"
 
+using namespace std;
 
 int main(int argc, char **argv){
 
     animate game;
-    board b;
-    b.set_param(10,10);
+    Board b(10,10);
     game.Attach(&b);
     game.run();
     game.Detach(&b);
 
-    
+
+    int a = 10;
+    int* c = new int(a);
+    int& _b = *c;
+    _b = 100;
+    cout << "c: " << *c << endl;
     return 0;
 }
 

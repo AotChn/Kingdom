@@ -9,11 +9,11 @@
 #include <ctime>
 #include <SFML/Graphics.hpp>
 
-#include "../../bool_source/bool_source.h"
+#include "../constants.h"
 #include "../object/unit/unit.h"
 #include "../helper/pair_helper.h"
 #include "../observer/Window_Observer.h"
-#include "../constants.h"
+#include "../../bool_source/bool_source.h"
 
 
 enum cursor_ST {IDLE, H_MOVE, MOVE, ACTION};
@@ -32,8 +32,7 @@ struct board_tile
 };
 
 
-class board : 
-public Window_Observer
+class board : public Window_Observer
 {
 
 public:
@@ -62,8 +61,8 @@ public:
     void draw(sf::RenderWindow& window);
     void draw_cursor(sf::RenderWindow& window);
     void draw_grid(sf::RenderWindow& window);
-    void draw_units(sf::RenderWindow& window);          //Draw all the [units] on the window
-    void draw_range(sf::RenderWindow& window);
+    void draw_units(sf::RenderWindow& window);          //Draw all the [units] on the window /FIN
+    void draw_range(sf::RenderWindow& window);          
     void draw_path(sf::RenderWindow& window);
     void draw_obstacle(sf::RenderWindow& window);
     void draw_tile(int i, int j, sf::RenderWindow& window, sf::Color c);
@@ -78,8 +77,8 @@ public:
     path_t get_range(int range, tile_t tile);
     path_t get_range_all(tile_t tile);
 
-    int find_tile(int coordx, int coordy);
     int find_tile(tile_t tile);
+    int find_tile(int coordx, int coordy);
     int find_tile(int coordx, int coordy, tile_t holder);
     int find_distance();
     int find_distance(int x, int y);
@@ -102,13 +101,12 @@ public:
 //	PROCCESS Event 
 //===========================================
     void update();
-    void Update(sf::RenderWindow& window, int event) override;
+    void onNotify(sf::RenderWindow& window, int event) override;
 
 
     int idle(); 
     int h_move();
     int action();
-
     int move();
 
 

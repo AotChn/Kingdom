@@ -13,7 +13,7 @@ const sf::Color RANGE_YELLOW(239,246,25,150);
 const sf::Color RANGE_BLUE(51,78,232,100);
 
 
-enum CUTOM_SFEV{
+enum CUSTOM_SFEV{
     Draw = sf::Event::EventType::Count
 };
 #endif
