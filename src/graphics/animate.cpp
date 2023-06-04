@@ -15,40 +15,47 @@ void animate::run(){
 }
 
  void animate::render(){
-    window.clear(sf::Color(20, 20, 20,255));
+    window.clear(BACKGROUND_DARK);
     draw();
     window.display();
 }
 
 void animate::draw(){
     b.draw(window);
-
 }
 
 void animate::update(){
+    b.update();
 }
 
 void animate::process_events(){
+
     sf::Event event;
     while(window.pollEvent(event)){
         switch(event.type){
-            case sf::Event::Closed:
+        case sf::Event::Closed:
             window.close();
             break;
-            case sf::Event::MouseButtonPressed:{
-            if(b.is_idle()){
-                if(b.is_unit(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, 0))
-                    b.update();
-                }
-            
-            else 
-                b.update();
+
+        case sf::Event::MouseButtonPressed:{
+                b.cursor_click(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                // b.update();
+                // b.add(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
             }
-            break;
+        case sf::Event::MouseButtonReleased:{
+                b.cursor_release(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
+            }   
+        case sf::Event::MouseMoved:{
+                b.cursor_move(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+                break;
+            }
 
+        default:{
+                b.cursor_idle();
+            }
         }
-
     }
 }
-
 

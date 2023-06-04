@@ -4,4 +4,4 @@ aot dev log
 05/12/2023 - implemented range , more advanced movement, recognizes unit space, added tile struct
 05/13/2023 - implemented scuffed path indicator
 
-things to look out for : need better cursor state machine 
+05/30/2023 - created git-ignore,

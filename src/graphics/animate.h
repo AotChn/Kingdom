@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "constants.h"
-#include "board.cpp"
+#include "board_copy.cpp"
 
 class animate{
     public: 

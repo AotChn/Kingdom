@@ -7,7 +7,10 @@ class app{
     public:
     
     app(){}
-    run();
+    int run();
+
+    private:
+    animate scene; 
 
 
 };
