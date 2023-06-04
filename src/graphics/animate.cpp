@@ -35,6 +35,11 @@ void animate::process_events(){
         case sf::Event::Closed:
             window.close();
             break;
+        // case sf::Event::MouseButtonReleased:
+        //     cout << "->[Animate] : MousRelased\n";
+        //     break;
+        // case sf::Event::MouseButtonPressed:
+        //     cout << "->[Animate] : MousePressed\n";
 
         default:
         break;

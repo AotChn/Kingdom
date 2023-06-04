@@ -8,7 +8,7 @@
 class Terrain : public onBoard
 {
 private:
-    /* data */
+    int _mCost;
 public:
     Terrain(cord_t where) : onBoard(where){}
     /*****************************************************
@@ -19,7 +19,11 @@ public:
         
     }
     /*****************************************************
+     * GETTER
+     */
+    virtual int get_mCost(){return 0;}
+
+    /*****************************************************
      * MUTATOR 
      */
-
 };

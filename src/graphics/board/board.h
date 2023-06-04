@@ -1,5 +1,5 @@
-#ifndef BOARD_COPY_H
-#define BOARD_COPY_H
+#ifndef BOARD_H
+#define BOARD_H
 
 #include <iostream>
 #include <vector>

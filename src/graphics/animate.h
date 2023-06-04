@@ -6,6 +6,8 @@
 #include "constants.h"
 #include "observer/Window_Observer.h"
 
+using namespace std;
+
 class animate: public Window_Subject{
     public: 
     

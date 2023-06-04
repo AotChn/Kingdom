@@ -9,10 +9,12 @@ public:
     /*****************************************************
      * VIRTUAL 
      */
-
     virtual ~onBoard(){};
-    virtual void draw(sf::RenderWindow&) = 0;
+    virtual void draw(sf::RenderWindow&) {assert(false);};
     
+    /*****************************************************
+     * GETTER / MUTATOR 
+     */
     void set_cord(cord_t cord){ _cord = cord; }
     cord_t get_cord() { return _cord; }
 private:

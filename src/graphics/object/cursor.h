@@ -6,23 +6,27 @@
 class Cursor : public onBoard
 {
 private:
-    /* data */
 public:
-    Cursor(cord_t where):onBoard(where){}
+    Cursor(cord_t where = cord_t()):onBoard(where){  }
 
     /*****************************************************
      * VIRTUAL 
      */
     
     virtual void draw(sf::RenderWindow& window) override{
-
+        onBoard::draw(window);
     }
     /*****************************************************
      * MUTATOR 
      */
-    void move(cord_t where){
+    void moveTo(cord_t where){
         set_cord(where);
     }
+
+    /*****************************************************
+     * Getter
+     */
+    cord_t getPosition(){return get_cord();}
 };
 
 

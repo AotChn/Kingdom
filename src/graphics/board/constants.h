@@ -8,6 +8,8 @@
 
 #include "../../bool_source/bool_source.h"
 #include "../observer/Window_Observer.h"
+#include "../helper/pair_helper.h"
+#include "../helper/sfml_helper.h"
 #include "../object/Object.hpp"
 #include "../constants.h"
 

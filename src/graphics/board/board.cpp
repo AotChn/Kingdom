@@ -32,7 +32,7 @@ int board::mCost(std::pair<int,int> tile){
 //===========================================
 //  TILE INFO / MANIP (ADVANCE)
 //===========================================
-std::vector<std::pair<int,int>> board::get_neighbors(std::pair<int,int> tile){
+std::vector<cord_t> board::get_neighbors(cord_t tile){
     std::vector<tile_t> v;
 
     //North
@@ -508,7 +508,7 @@ void board::move_unit(int i, int j, int x, int y, sf::Color c){
     int a = find_tile(i, j), b = find_tile(x,y);
     tile_t _a(i,j), _b(x,y);
 
-    unit_q[_b] = unit_q[_a].move(_b);
+    unit_q[_b] = unit_q[_a].moveTo(_b);
     unit_q.erase(_a);
 
     board_info[a].empty = true;
