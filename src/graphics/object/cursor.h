@@ -27,6 +27,7 @@ public:
      * Getter
      */
     cord_t getPosition(){return get_cord();}
+    //return the position of cursor
 };
 
 

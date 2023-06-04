@@ -4,7 +4,7 @@
 //  Big 3, Set up 
 //===========================================
     
-    Board::Board(int r, int c): _grid(r,c), cur_ST(0){
+    Board::Board(int r, int c): _grid(r,c), cur_ST(0), _hold(false){
         _cursor = Cursor();
         _cursor_tile = Tile();
         set_param();
@@ -22,15 +22,21 @@
             for(int x = 0; x < _grid._col; ++x){
                 tile_t t(x,y);
                 if(p.query()){
-                    Unit* u = new Infantry(t, 0);
+                    Unit* u = new Infantry(t);
                     _units[t] = u;
+
                     _grid[t].empty = false;
+                    _grid[t].mCost = 1;
                     _grid[t].u = u;
                 }
                 else if(p.query()){
+                    _grid[t].empty = true;
+                    _grid[t].mCost = 1;
+
                 }
                 else{
-                    
+                    _grid[t].empty = true;
+                    _grid[t].mCost = 1;
                 }
             }
         }
@@ -72,23 +78,34 @@
         cur_EV = event;
         switch (event)
         {
-        case CUSTOM_SFEV::Draw:
-            draw(window);
-            return;
+            case CUSTOM_SFEV::Draw:
+                draw(window);
+                return;
             break;
-        case sf::Event::MouseMoved:
-            _cursor.moveTo(sfml_to_tile(getMousePosition(window)));
-            _cursor_tile.set_cord(_cursor.get_cord());
+            case sf::Event::MouseMoved:
+                _cursor.moveTo(sfml_to_tile(getMousePosition(window)));
+                if(!_hold)
+                    _cursor_tile.set_cord(_cursor.get_cord());
             break;
-        case sf::Event::MouseButtonReleased:
-        case sf::Event::MouseButtonPressed:
-        {
-            cur_EV = event;
-            break;
-        }
-        default:
-            cur_EV = CUSTOM_SFEV::Idle;
-            break;
+            case sf::Event::MouseButtonReleased:
+                std::printf("[Board]->[EV]-> MousePressed\n");
+            {
+                cur_EV = event;
+                break;
+            }
+            
+            case sf::Event::MouseButtonPressed:
+                std::printf("[Board]->[EV]-> MouseReleased\n");
+            {
+                cur_EV = event;
+                break;
+            }
+            default:{
+                cur_EV = CUSTOM_SFEV::Idle;
+                if(!_hold)
+                    _cursor_tile.set_cord(_cursor.get_cord());
+                break;
+            }
         }
 
         update();
@@ -97,21 +114,29 @@
 
     int Board::idle(){
         //DrawQ
-        _draw_q.push(&_grid);
-        _draw_q.push(&_cursor_tile);
-        for(auto u : _units){
+        _draw_q.push(&_grid); // grid to drawQ
+        _draw_q.push(&_cursor_tile);// cursor_tile to drawQ
+        for(auto u : _units){// all Units to drawQ
             _draw_q.push(u.second);
         }
+        //-------
 
-        if(cur_EV == CUSTOM_SFEV::Idle) return IDLE; //quick return;
 
         tile_info* curTile = &_grid[_cursor.getPosition()];
+        //get the current tile info
 
         switch (cur_EV)
         {
         case sf::Event::MouseButtonReleased:{
+            _hold = false;
+            //no longer holding
             if(!_select_buffer.empty() && _select_buffer[0] == curTile->u){
+                //if the same tile was selected
 
+                _range.setPosition(_cursor.getPosition()); 
+                _range.setRange(curTile->u->getAp());
+                _range.updateMap(&_grid);
+                _cursor_tile.setFillColor(SELECTED_BLUE);
                 return H_MOVE;
             }
             else {
@@ -121,20 +146,62 @@
             break;
         }
         case sf::Event::MouseButtonPressed:{
+            _hold = true;  
             if(_select_buffer.empty() && curTile->u && curTile->u->isPC()){
                 _select_buffer.push_back(curTile->u);
                 // std::printf("->[IDLE]->[MousePressed] : selected tile\n");
             }
             break;
+            }
+        case sf::Event::MouseMoved:{
+            break;
+            }
+        default:{
+            if(!_hold){
+                if(curTile->u && curTile->u->isPC()){
+                    _cursor_tile.setOutLineColor(sf::Color::Green);
+                    _cursor_tile.setFillColor(VOID_COLOR);
+                }
+                else{
+                    _cursor_tile.setOutLineColor(sf::Color::Red);
+                    _cursor_tile.setFillColor(VOID_COLOR);
+                }
+            }
+
+            break;
+            }
+        }
+    
+        return IDLE;
+
+    }
+
+    int Board::h_move(){
+        _draw_q.push(&_grid);
+        _draw_q.push(&_cursor_tile);
+        for(auto u : _units){
+            _draw_q.push(u.second);
+        }
+        _draw_q.push(&_range);
+        
+
+
+        tile_info* curTile = &_grid[_cursor.getPosition()];
+    
+        switch (cur_EV)
+        {
+        case sf::Event::MouseButtonReleased:{
+            break;
+        }
+        case sf::Event::MouseButtonPressed:{
+            break;
         }
         case sf::Event::MouseMoved:{
-            if(curTile->u && curTile->u->isPC()){
+            if(_range.within_range(_cursor.getPosition()) && !curTile->u){
                 _cursor_tile.setOutLineColor(sf::Color::Green);
-                _cursor_tile.setFillColor(VOID_COLOR);
             }
             else{
                 _cursor_tile.setOutLineColor(sf::Color::Red);
-                _cursor_tile.setFillColor(VOID_COLOR);
             }
         }
         default:
@@ -142,49 +209,9 @@
         }
     
 
-
-        return IDLE;
-
-    }
-
-    int Board::h_move(){
-        
-        // if(proc_f[RELEASE_P]){
-        //     proc_f[RELEASE_P] = false;
-        //     if(same_tile(tiles[1], cur)){
-        //         if(find_distance(tiles[1].first, tiles[1].second) < 5 && board_info[find_tile(cur)].empty){
-        //             cur_ST = MOVE;
-        //             return (this->*s[cur_ST])();
-        //         }
-        //         //else
-        //             tiles.clear();
-        //         return IDLE;
-        //     }
-        //     else tiles.pop_back();
-        //     return H_MOVE;
-        // }
-
-            
-        // if(proc_f[CLICK_P]){
-        //     proc_f[CLICK_P] = false;
-
-        //     if(tiles.size() == 1){
-        //         tiles.push_back(cur);
-        //     }
-
-        //     return H_MOVE;
-        // }
-
-        
-        // if(proc_f[MOVE_P]){
-        //     proc_f[MOVE_P] = false;
-        //     return H_MOVE;
-        // }
-        
-        // std::printf("->[hmove]\n");
         _select_buffer.clear();
-        return IDLE;
         return H_MOVE;
+        return IDLE;
     }
 
     int Board::move(){

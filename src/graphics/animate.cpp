@@ -30,7 +30,7 @@ void animate::update(){
 void animate::process_events(){
 
     sf::Event event;
-    while(window.pollEvent(event)){
+    if(window.pollEvent(event)){
         switch(event.type){
         case sf::Event::Closed:
             window.close();
@@ -42,10 +42,11 @@ void animate::process_events(){
         //     cout << "->[Animate] : MousePressed\n";
 
         default:
+            Notify(window, event.type);
         break;
         }
     }
-    Notify(window, event.type);
+    else Notify(window, CUSTOM_SFEV::Idle);  
 }
 
 

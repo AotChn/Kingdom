@@ -27,7 +27,7 @@ public:
     /*****************************************************
      * GETTER
      */  
-    
+    inline virtual int getAp();
     inline cost_t get_mCost();
 
     inline virtual bool isPC();
@@ -39,12 +39,6 @@ public:
 };
 
 
-/*****************************************************
- * VIRTUAL 
- */
-
-    inline bool Unit::isPC(){return false;}
-        //is Player Character?
 
 /*****************************************************
  * MUTATOR
@@ -58,6 +52,13 @@ public:
 /*****************************************************
  * GETTER
  */
+    inline bool Unit::isPC(){return false;}
+        //is Player Character?
+
     inline Unit::cost_t Unit::get_mCost(){
         return _mCost;
     }
+    int Unit::getAp(){
+        return 0;
+    }
+

@@ -4,4 +4,5 @@
 #include "type_def.h"
 #include "cursor.h"
 #include "grids.h"
+#include "range.h"
 #include "tile.h"

@@ -13,36 +13,24 @@ public:
     enum State {IDLE, H_MOVE, MOVE, ACTION};
 //===========================================
 //  Big 3, Set up 
-//===========================================
-    
+//===========================================  
     Board(int r, int c);
     void set_param();
     void init_map();
     
 //===========================================
-//	DRAW : cursor, grid, units, range, path, obstacle
+//	DRAW : cursor, grid, range, path, units(obstacle, infantry)
 //===========================================
     
     void draw(sf::RenderWindow& window);
 
-
-//===========================================
-//	TILE INFO/ MANIPULATION
-//===========================================
-    cord_t sfml_to_tile(cord_t tile);
-
-
-//===========================================
-//	GATHER INFO
-//===========================================
-
-
 //===========================================
 //	PROCCESS Event 
 //===========================================
-    void update();
     virtual void onNotify(sf::RenderWindow& window, int event) override; 
 
+private:
+    void update();
     int idle(); 
     int h_move();
     int action();
@@ -54,22 +42,26 @@ public:
     int(Board::*H_MOVE_ST)() = &Board::h_move;
     int(Board::*ACTION_ST)() = &Board::action;
 
-//===========================================
-//  BOOL SRC
-//===========================================
-
 
 private: 
+//===========================================
+//	TILE INFO/ MANIPULATION
+//===========================================
+    cord_t sfml_to_tile(cord_t tile);
 
     //Drawable objects:
-    int cur_ST;     //current state
-    int cur_EV;     //current Event
-    Grid    _grid;  //grid object
-    tile_unitptr _units; //map, key = cord_t | data = unit*
-    Tile _cursor_tile; //Tile object
 
-    std::vector<Unit*> _select_buffer;
-    Cursor _cursor;
+    Grid    _grid;  //grid 
+    tile_unitptr _units; //map, key = cord_t | data = unit*
+    Tile _cursor_tile; //Tile 
+    Range _range; //Range 
+    
+    //Interal Stuff:
+    int cur_ST;     //current State
+    int cur_EV;     //current Event
+    bool _hold;     //Holding the mouse?
+    std::vector<Unit*> _select_buffer; //if user select(click) on a tile, that tile will appear on the _selected_buffer
+    Cursor _cursor; //storing cursor position 
     std::queue<onBoard*> _draw_q; //Queue of Items to be drawn on the Board
     std::vector<int(Board::*)()> _s = {IDLE_ST, H_MOVE_ST, MOVE_ST, ACTION_ST};
 };  
