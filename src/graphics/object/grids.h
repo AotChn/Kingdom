@@ -31,6 +31,19 @@ public:
     inline tile_info operator[](const cord_t cord)const;
     inline tile_info& operator[](const cord_t cord);
 
+    tile_info& getTile(cord_t cord){
+        return _grids[find_tile(cord)];
+    }
+    /*****************************************************
+     * MUTATOR
+     */
+
+    //place unit onto the grid, based on unit->_cord    
+    void emplaceUnit(Unit* unit){
+        tile_info& t = _grids[find_tile(unit->get_cord())];
+        t.empty = false;
+        t.u = unit;
+    }
 
     /*****************************************************
      * NAVIGATOR / BOOL_SRC 
