@@ -6,7 +6,7 @@
 
 
 std::pair<int,int> board::sfml_to_tile(int coordx, int coordy){
-    return make_pair(coordx/dx,coordy/dy);
+    return std::make_pair(coordx/dx,coordy/dy);
 }
 
 bool board::is_valid(std::pair<int,int> tile){
@@ -36,22 +36,22 @@ std::vector<cord_t> board::get_neighbors(cord_t tile){
     std::vector<tile_t> v;
 
     //North
-    tile_t dir = make_pair(tile.first, tile.second + 1); 
+    tile_t dir = std::make_pair(tile.first, tile.second + 1); 
     if(is_valid(dir))
         v.push_back(dir);
 
     //East
-    dir = make_pair(tile.first + 1, tile.second);
+    dir = std::make_pair(tile.first + 1, tile.second);
     if(is_valid(dir))
         v.push_back(dir);
 
     //South
-    dir = make_pair(tile.first, tile.second - 1);
+    dir = std::make_pair(tile.first, tile.second - 1);
     if(is_valid(dir))
         v.push_back(dir);
 
     //West
-    dir = make_pair(tile.first - 1, tile.second);
+    dir = std::make_pair(tile.first - 1, tile.second);
     if(is_valid(dir))
         v.push_back(dir);
 
@@ -66,7 +66,7 @@ board::path_t board::get_range(int range, std::pair<int,int> tile){
 
     tile_t cur = tile;
     int ap = range;
-    q.push(make_pair<tile_t, int>(tile, ap));
+    q.push(std::pair<tile_t, int>(tile, ap));
     seen[cur] = ap;
 
     while (!q.empty())
@@ -80,7 +80,7 @@ board::path_t board::get_range(int range, std::pair<int,int> tile){
             for(auto x : get_neighbors(cur)){
               
                 if( is_passable(x) &&  ( seen.find(x) == seen.end() || seen[q.front().first] < ap ) ){ //if never been here || been here but this time cost less ap
-                    q.push( make_pair<tile_t, int>( x, ap - mCost(x) ) ); //step into this tile (push ( coordinate, remaining ap ) )
+                    q.push( std::pair<tile_t, int>( x, ap - mCost(x) ) ); //step into this tile (push ( coordinate, remaining ap ) )
                     r[x] = cur;//and set the tile's parent to current tile
                 }
             
@@ -100,7 +100,7 @@ board::path_t board::get_range_all(tile_t tile){
 
     tile_t cur = tile;
     int ap = 0;
-    q.push(make_pair<tile_t, int>(tile, ap));
+    q.push(std::pair<tile_t, int>(tile, ap));
     seen[cur] = ap;
 
     while (!q.empty())
@@ -113,7 +113,7 @@ board::path_t board::get_range_all(tile_t tile){
                   
         for(auto x : get_neighbors(q.front().first)){
             if( is_passable(x) && ( seen.find(x) == seen.end() || seen[q.front().first] > ap + mCost(x) ) ){ //if never been here || been here but this time cost less ap
-                q.push(make_pair<tile_t, int>(x, ap + mCost(x))); //step into this tile, push(coordinate, current ap) ( used to move to this tile )
+                q.push(std::pair<tile_t, int>(x, ap + mCost(x))); //step into this tile, push(coordinate, current ap) ( used to move to this tile )
                 r[x] = cur;//and set the tile's parent to current tile
             }
 

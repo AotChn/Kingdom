@@ -11,7 +11,7 @@ void Range::getRangeAll(){
 
     cord_t cur = get_cord();
     int ap = 0;
-    q.push(make_pair<cord_t, int>(cur, ap));
+    q.push(std::pair<cord_t, int>(cur, ap));
     seen[cur] = ap;
     while (!q.empty())
     {   
@@ -24,7 +24,7 @@ void Range::getRangeAll(){
             if( _board->is_passable(x) &&  ( seen.find(x) == seen.end() || seen[q.front().first] < ap ) ){ 
                 //if it is a passable tile AND
                     //if never been here || been here but this time cost less ap
-                q.push( make_pair<cord_t, int>( x, ap + _board->get_mCost(x) ) ); 
+                q.push( std::pair<cord_t, int>( x, (ap + _board->get_mCost(x)) ) ); 
                     //step into this tile (push ( coordinate, remaining ap ) )
                 r[x] = cur;
                 if(ap < _range) 

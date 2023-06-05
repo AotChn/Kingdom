@@ -11,7 +11,6 @@
 
 #include "../constants.h"
 #include "../object/unit/unit.h"
-#include "../helper/pair_helper.h"
 #include "../observer/Window_Observer.h"
 #include "../../bool_source/bool_source.h"
 

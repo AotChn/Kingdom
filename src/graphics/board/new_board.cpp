@@ -57,7 +57,7 @@
 //===========================================
     
     cord_t Board::sfml_to_tile(cord_t tile){
-        return make_pair(tile.first/onBoard::DX,tile.second/onBoard::DY);
+        return std::make_pair(tile.first/onBoard::DX,tile.second/onBoard::DY);
     }
 
 

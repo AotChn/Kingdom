@@ -7,7 +7,6 @@
 #include <Queue>
 #include <SFML/Graphics.hpp>
 
-#include "../helper/pair_helper.h"
 #include "../color_constants.h"
 
 typedef std::pair<int,int> cord_t;  

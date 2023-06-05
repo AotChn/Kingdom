@@ -43,22 +43,22 @@ std::vector<cord_t> Grid::get_neighbors(cord_t tile){
     std::vector<cord_t> v;
 
     //North
-    cord_t dir = make_pair(tile.first, tile.second + 1); 
+    cord_t dir = std::make_pair(tile.first, tile.second + 1); 
     if(is_valid(dir))
         v.push_back(dir);
 
     //East
-    dir = make_pair(tile.first + 1, tile.second);
+    dir = std::make_pair(tile.first + 1, tile.second);
     if(is_valid(dir))
         v.push_back(dir);
 
     //South
-    dir = make_pair(tile.first, tile.second - 1);
+    dir = std::make_pair(tile.first, tile.second - 1);
     if(is_valid(dir))
         v.push_back(dir);
 
     //West
-    dir = make_pair(tile.first - 1, tile.second);
+    dir = std::make_pair(tile.first - 1, tile.second);
     if(is_valid(dir))
         v.push_back(dir);
 
