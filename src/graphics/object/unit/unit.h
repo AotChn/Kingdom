@@ -23,7 +23,7 @@ public:
      */
     
     inline Unit& moveTo(cord_t newCord);
-    
+    inline Unit& moveTo(int x, int y);
     /*****************************************************
      * GETTER
      */  
@@ -47,6 +47,9 @@ public:
     inline Unit& Unit::moveTo(cord_t newCord){
         set_cord(newCord);
         return *this;
+    }
+    inline Unit& Unit::moveTo(int x, int y){
+        return moveTo(cord_t(x,y));
     }
 
 /*****************************************************

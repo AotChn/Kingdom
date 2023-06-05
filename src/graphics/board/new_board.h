@@ -54,7 +54,7 @@ private:
     Grid    _grid;  //grid 
     tile_unitptr _units; //map, key = cord_t | data = unit*
     Tile _cursor_tile; //Tile 
-    Range _range; //Range 
+    Path _path; //Range->Path
     
     //Interal Stuff:
     int cur_ST;     //current State

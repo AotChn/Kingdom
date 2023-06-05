@@ -14,18 +14,19 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-    animate game;
-    Board b(10,10);
-    game.Attach(&b);
-    game.run();
-    game.Detach(&b);
+    // animate game;
+    // Board b(10,10);
+    // game.Attach(&b);
+    // game.run();
+
+    // int a = 10;
+    // int* c = new int(a);
+    // int& _b = *c;
+    // _b = 100;
+    // cout << "c: " << *c << endl;
+    // return 0;
 
 
-    int a = 10;
-    int* c = new int(a);
-    int& _b = *c;
-    _b = 100;
-    cout << "c: " << *c << endl;
-    return 0;
+
 }
 

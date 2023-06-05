@@ -15,8 +15,10 @@ public:
     /*****************************************************
      * GETTER / MUTATOR 
      */
-    void set_cord(cord_t cord){ _cord = cord; }
-    cord_t get_cord() { return _cord; }
+    void    set_cord(cord_t cord){ _cord = cord; }
+    cord_t  get_cord() { return _cord; }
+    int     get_x() { return _cord.first;}
+    int     get_y() { return _cord.second;}
 private:
     cord_t _cord; //coordinate where the object locate
 };

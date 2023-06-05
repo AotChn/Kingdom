@@ -62,11 +62,6 @@
 
 
 //===========================================
-//	GATHER INFO
-//===========================================
-
-
-//===========================================
 //	PROCCESS Event 
 //===========================================
     
@@ -83,7 +78,7 @@
                 return;
             break;
             case sf::Event::MouseMoved:
-                _cursor.moveTo(sfml_to_tile(getMousePosition(window)));
+                _cursor.set_cord(sfml_to_tile(getMousePosition(window)));
                 if(!_hold)
                     _cursor_tile.set_cord(_cursor.get_cord());
             break;
@@ -125,18 +120,17 @@
         tile_info* curTile = &_grid[_cursor.getPosition()];
         //get the current tile info
 
-        switch (cur_EV)
-        {
+        switch (cur_EV){
         case sf::Event::MouseButtonReleased:{
             _hold = false;
             //no longer holding
             if(!_select_buffer.empty() && _select_buffer[0] == curTile->u){
                 //if the same tile was selected
 
-                _range.setPosition(_cursor.getPosition()); 
-                _range.setRange(curTile->u->getAp());
-                _range.updateMap(&_grid);
-                _cursor_tile.setFillColor(SELECTED_BLUE);
+                _path.setStart(_cursor.getPosition()); 
+                _path.setRange(curTile->u->getAp());
+                _path.updateMap(&_grid);
+                _cursor_tile.setFillColor(VOID_COLOR);
                 return H_MOVE;
             }
             else {
@@ -146,64 +140,65 @@
             break;
         }
         case sf::Event::MouseButtonPressed:{
-            _hold = true;  
             if(_select_buffer.empty() && curTile->u && curTile->u->isPC()){
+                _hold = true;  
                 _select_buffer.push_back(curTile->u);
                 // std::printf("->[IDLE]->[MousePressed] : selected tile\n");
             }
             break;
-            }
-        case sf::Event::MouseMoved:{
-            break;
-            }
-        default:{
-            if(!_hold){
-                if(curTile->u && curTile->u->isPC()){
-                    _cursor_tile.setOutLineColor(sf::Color::Green);
-                    _cursor_tile.setFillColor(VOID_COLOR);
-                }
-                else{
-                    _cursor_tile.setOutLineColor(sf::Color::Red);
-                    _cursor_tile.setFillColor(VOID_COLOR);
-                }
-            }
-
-            break;
-            }
         }
+        case sf::Event::MouseMoved:{
+        }
+        default:{
+            if(curTile->u && curTile->u->isPC() && (!_hold)){
+                _cursor_tile.setOutLineColor(sf::Color::Green);
+                _cursor_tile.setFillColor(VOID_COLOR);
+            }
+            else if (!_hold) {
+                _cursor_tile.setOutLineColor(sf::Color::Red);
+                _cursor_tile.setFillColor(VOID_COLOR);
+            }
+            break;
+        }   
+        
+    }
     
         return IDLE;
 
     }
 
     int Board::h_move(){
+        //DrawQ
         _draw_q.push(&_grid);
-        _draw_q.push(&_cursor_tile);
         for(auto u : _units){
             _draw_q.push(u.second);
         }
-        _draw_q.push(&_range);
-        
+        _draw_q.push(&_path);
+        _draw_q.push(&_cursor_tile);
+        //---------
 
+        _path.setEnd(_cursor.getPosition());
 
         tile_info* curTile = &_grid[_cursor.getPosition()];
     
         switch (cur_EV)
         {
         case sf::Event::MouseButtonReleased:{
+            
             break;
         }
         case sf::Event::MouseButtonPressed:{
             break;
         }
         case sf::Event::MouseMoved:{
-            if(_range.within_range(_cursor.getPosition()) && !curTile->u){
+            if(_path.within_range(_cursor.getPosition()) && !curTile->u){
                 _cursor_tile.setOutLineColor(sf::Color::Green);
             }
             else{
                 _cursor_tile.setOutLineColor(sf::Color::Red);
             }
         }
+        case sf::Event::KeyPressed:
         default:
             break;
         }

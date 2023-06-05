@@ -28,8 +28,8 @@ void animate::update(){
 }
 
 void animate::process_events(){
-
     sf::Event event;
+    int key = event.key.code;
     if(window.pollEvent(event)){
         switch(event.type){
         case sf::Event::Closed:
