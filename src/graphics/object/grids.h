@@ -1,11 +1,11 @@
 #pragma once
 
+#include "../observer/Cmd_Oberver.h"
 #include "../constants.h"
 #include "unit/unit.h"
 #include "type_def.h"
 #include "terrain.h"
 #include "onBoard.h"
-
 struct tile_info{
     tile_info(bool _empty = true, int _mCost  = 1): empty(_empty), mCost(_mCost){}
     bool empty;
