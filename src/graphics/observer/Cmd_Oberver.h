@@ -21,6 +21,10 @@ class Cmd_Subject : public iSubject
 public:
   virtual ~Cmd_Subject(){
   }
+
+  //Notify all the observer that this command "cmd" executed and type = command::command_type::(what type it is)
+  //The idea is to static cast "cmd" to corresponding command object and 
+  //call get_package() to recieve all the info stored inside the cmd 
   virtual void Notify(Command* cmd, Command::cmd_type type){
     if(_sub_debug)
       How_many_observer();

@@ -27,6 +27,7 @@ TEST(UOBSERVER, simple){
   tile_info& t00 = grid[grid.find_tile(cord_t(0,0))];
   tile_info& t11 = grid[grid.find_tile(cord_t(1,1))];
 
+  cmd.Attach(&grid);
   grid.emplaceUnit(&i1);
 
   cmd.execute();

@@ -21,15 +21,15 @@ public:
 //===========================================
 //	DRAW : cursor, grid, range, path, units(obstacle, infantry)
 //===========================================
-    
+    //draw what even is in the draw_q
     void draw(sf::RenderWindow& window);
 
+
+private:
 //===========================================
 //	PROCCESS Event 
 //===========================================
     virtual void onNotify(sf::RenderWindow& window, int event) override; 
-
-private:
     void update();
     int idle(); 
     int h_move();

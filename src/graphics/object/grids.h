@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../observer/Cmd_Oberver.h"
+#include "../command/unit_command.h"
 #include "../constants.h"
 #include "unit/unit.h"
 #include "type_def.h"
@@ -14,7 +15,7 @@ struct tile_info{
     Terrain* t = nullptr;
 };
 
-class Grid : public onBoard{
+class Grid : public onBoard, public Cmd_Observer{
 public:
     int _row, _col;
     Grid(int r, int c);
@@ -45,6 +46,22 @@ public:
         t.u = unit;
     }
 
+    //Notified by cmd
+    virtual void onNotify(Command* cmd, Command::cmd_type type){
+        switch (type)
+        {
+        case Command::cmd_type::MoveUnit:
+            {
+                auto package = static_cast<MoveUnitCommand*>(cmd)->getPackage();
+                emplaceUnit(package._unit);
+                detachUnit(cord_t(package._xBefore,package._yBefore));
+            }
+            break;
+        
+        default:
+            break;
+        }
+    }
     /*****************************************************
      * NAVIGATOR / BOOL_SRC 
      */
@@ -57,8 +74,13 @@ public:
     std::vector<cord_t> get_neighbors(cord_t tile);
         //return a vector of the neighbors of the tile
     inline ap_t get_mCost(cord_t tile);
-
+    
 private:
+    void detachUnit(cord_t tile){
+        tile_info& t = getTile(tile);
+        t.u = nullptr;
+        t.empty = true;
+    }
     tile_info* _grids;
 };
 

@@ -11,6 +11,7 @@ struct Node
   Node* _next;
 };
 
+//Interface for Observer
 class iObserver
 {
 public:
@@ -29,7 +30,10 @@ public:
   //INFO TRANSMIT
   //=========================
   
-  virtual void onNotify() {assert(false);};
+  //Observer is informed by calling this command
+  //which is usually called by Subject
+  
+  // virtual void onNotify() {assert(false);};
   
   //=========================
   //DEBUG MSG
@@ -49,6 +53,7 @@ protected:
   static bool _obs_debug;
 };
 
+//Interface for Subject
 class iSubject {
 public:
   //=========================
@@ -104,7 +109,9 @@ public:
     }
   }
   
-  virtual void Notify() {assert(false);}
+  //When the Subject do something and wanted to notify the observer
+  //it will call this command;
+  // virtual void Notify() = 0;
 
   //=========================
   //DEBUG MSG

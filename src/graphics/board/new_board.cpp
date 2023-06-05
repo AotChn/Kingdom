@@ -78,7 +78,9 @@
                 return;
             break;
             case sf::Event::MouseMoved:
+                //updating the cursor position 
                 _cursor.set_cord(sfml_to_tile(getMousePosition(window)));
+                //If holding the mouse, Do not update the cursor_tile
                 if(!_hold)
                     _cursor_tile.set_cord(_cursor.get_cord());
             break;
@@ -96,7 +98,10 @@
                 break;
             }
             default:{
+                //Default = set event to Idle state (a custom event enum)
                 cur_EV = CUSTOM_SFEV::Idle;
+                
+                //If holding the mouse, Do not update the cursor_tile
                 if(!_hold)
                     _cursor_tile.set_cord(_cursor.get_cord());
                 break;
@@ -123,14 +128,14 @@
         switch (cur_EV){
         case sf::Event::MouseButtonReleased:{
             _hold = false;
-            //no longer holding
+            //if there is a pre_selected_tile AND the user certain to selecte that tile (press and release are on the same tile)
             if(!_select_buffer.empty() && _select_buffer[0] == curTile->u){
-                //if the same tile was selected
+                //Go to Hmove But Before
 
-                _path.setStart(_cursor.getPosition()); 
-                _path.setRange(curTile->u->getAp());
-                _path.updateMap(&_grid);
-                _cursor_tile.setFillColor(VOID_COLOR);
+                _path.setStart(_cursor.getPosition()); //set _path
+                _path.setRange(curTile->u->getAp()); //set how many range for the unit
+                _path.updateMap(&_grid); //And calcuate the _path
+                _cursor_tile.setFillColor(VOID_COLOR); //color
                 return H_MOVE;
             }
             else {
@@ -140,7 +145,9 @@
             break;
         }
         case sf::Event::MouseButtonPressed:{
+            //if not select a tile && current Tile have a controlable unit
             if(_select_buffer.empty() && curTile->u && curTile->u->isPC()){
+                //Ready to getinto Hmove (go to MouseButtonRelased)
                 _hold = true;  
                 _select_buffer.push_back(curTile->u);
                 // std::printf("->[IDLE]->[MousePressed] : selected tile\n");
@@ -148,13 +155,15 @@
             break;
         }
         case sf::Event::MouseMoved:{
+            //intended empty
         }
         default:{
-            if(curTile->u && curTile->u->isPC() && (!_hold)){
+            //if It is not holding then update the cursor_tile 
+            if(curTile->u && curTile->u->isPC() && (!_hold)){   //Green for selectable 
                 _cursor_tile.setOutLineColor(sf::Color::Green);
                 _cursor_tile.setFillColor(VOID_COLOR);
             }
-            else if (!_hold) {
+            else if (!_hold) { //Red for not-selectable
                 _cursor_tile.setOutLineColor(sf::Color::Red);
                 _cursor_tile.setFillColor(VOID_COLOR);
             }
@@ -168,7 +177,7 @@
     }
 
     int Board::h_move(){
-        //DrawQ
+        //DrawQ (Grid, Units, path&Range, cursor_tile)
         _draw_q.push(&_grid);
         for(auto u : _units){
             _draw_q.push(u.second);
@@ -177,7 +186,7 @@
         _draw_q.push(&_cursor_tile);
         //---------
 
-        _path.setEnd(_cursor.getPosition());
+        _path.setEnd(_cursor.getPosition()); //Update the dest of the path
 
         tile_info* curTile = &_grid[_cursor.getPosition()];
     

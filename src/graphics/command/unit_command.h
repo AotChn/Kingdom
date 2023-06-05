@@ -11,7 +11,7 @@ struct MoveUnitCommandPackage{
   _xBefore, _yBefore;
 };
 
-class MoveUnitCommand : public Command, Cmd_Subject
+class MoveUnitCommand : public Command, public Cmd_Subject
 {
 public:
   MoveUnitCommand(Unit* unit, int x, int y)
@@ -25,6 +25,7 @@ public:
 
   virtual ~MoveUnitCommand(){}
 
+  //Update the position of Unit to _x, _y AND Notify the obeserver
   virtual void execute()
   {
     _package._xBefore = _package._unit->get_x();
@@ -33,6 +34,7 @@ public:
     Notify(this, Command::cmd_type::MoveUnit);
   }
   
+  //Undo the position of Unit AND Notify the obeserver
   virtual void undo(){
     _package._unit->moveTo(_package._xBefore,_package._yBefore);
   }
@@ -40,5 +42,5 @@ public:
   MoveUnitCommandPackage& getPackage(){ return _package;}
 
 private:
-  MoveUnitCommandPackage _package;
+  MoveUnitCommandPackage _package; //a Wrapper to hold all variables
 };
