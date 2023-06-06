@@ -102,6 +102,7 @@ public:
     void updateMap(Grid* board = nullptr) override{
         if(board)
             setBoard(board);
+        clear();
         getRangeAll();
     }
 };

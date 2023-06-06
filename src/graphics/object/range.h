@@ -65,6 +65,8 @@ public:
     virtual void updateMap(Grid* board = nullptr){
         if(board)
             setBoard(board);
+        
+        clear();
         getRangeAll();
     }
 
@@ -77,6 +79,9 @@ protected:
 
     //Calculate and Update the Map
     void getRangeAll();
+    void clear(){
+        _ap_cordv.clear();
+    }
 };
 
 

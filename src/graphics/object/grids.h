@@ -62,6 +62,7 @@ public:
     inline bool is_valid(cord_t tile) const;
         //return true if the cord is passable, else false;
     inline bool is_passable(cord_t tile) const;
+    inline bool is_empty(cord_t tile) const;
         //return a vector of the neighbors of the tile
     std::vector<cord_t> get_neighbors(cord_t tile);
         //return the movement Cost of the tile
@@ -97,6 +98,10 @@ inline bool Grid::is_valid(cord_t tile) const{
 inline bool Grid::is_passable(cord_t tile) const{
     return (_grids[find_tile(tile)].empty || _grids[find_tile(tile)].u->isPC());
 }
+inline bool Grid::is_empty(cord_t tile) const{
+    return _grids[find_tile(tile)].empty;
+}
+
 
 inline ap_t Grid::get_mCost(cord_t tile){
     auto t = _grids[find_tile(tile)];

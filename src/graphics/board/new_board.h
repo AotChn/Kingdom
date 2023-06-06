@@ -60,7 +60,7 @@ private:
     int cur_ST;     //current State
     int cur_EV;     //current Event
     bool _hold;     //Holding the mouse?
-    std::vector<Unit*> _select_buffer; //if user select(click) on a tile, that tile will appear on the _selected_buffer
+    std::vector<onBoard*> _select_buffer; //if user select(click) on a tile, that tile will appear on the _selected_buffer
     Cursor _cursor; //storing cursor position 
     std::queue<onBoard*> _draw_q; //Queue of Items to be drawn on the Board
     std::vector<int(Board::*)()> _s = {IDLE_ST, H_MOVE_ST, MOVE_ST, ACTION_ST};

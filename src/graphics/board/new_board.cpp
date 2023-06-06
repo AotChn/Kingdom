@@ -24,10 +24,7 @@
                 if(p.query()){
                     Unit* u = new Infantry(t);
                     _units[t] = u;
-
-                    _grid[t].empty = false;
-                    _grid[t].mCost = 1;
-                    _grid[t].u = u;
+                    _grid.attachUnit(u);
                 }
                 else if(p.query()){
                     _grid[t].empty = true;
@@ -82,7 +79,7 @@
                 _cursor.set_cord(sfml_to_tile(getMousePosition(window)));
                 //If holding the mouse, Do not update the cursor_tile
                 if(!_hold)
-                    _cursor_tile.set_cord(_cursor.get_cord());
+                    _cursor_tile.set_cord(_cursor.getPosition());
             break;
             case sf::Event::MouseButtonReleased:
                 std::printf("[Board]->[EV]-> MousePressed\n");
@@ -103,7 +100,7 @@
                 
                 //If holding the mouse, Do not update the cursor_tile
                 if(!_hold)
-                    _cursor_tile.set_cord(_cursor.get_cord());
+                    _cursor_tile.set_cord(_cursor.getPosition());
                 break;
             }
         }
@@ -122,7 +119,9 @@
         //-------
 
 
-        tile_info* curTile = &_grid[_cursor.getPosition()];
+        cord_t t = _cursor.getPosition();
+        tile_info* curTile = &_grid[t];
+        
         //get the current tile info
 
         switch (cur_EV){
@@ -132,7 +131,7 @@
             if(!_select_buffer.empty() && _select_buffer[0] == curTile->u){
                 //Go to Hmove But Before
 
-                _path.setStart(_cursor.getPosition()); //set _path
+                _path.setStart(t); //set _path
                 _path.setRange(curTile->u->getAp()); //set how many range for the unit
                 _path.updateMap(&_grid); //And calcuate the _path
                 _cursor_tile.setFillColor(VOID_COLOR); //color
@@ -186,36 +185,70 @@
         _draw_q.push(&_cursor_tile);
         //---------
 
-        _path.setEnd(_cursor.getPosition()); //Update the dest of the path
+        cord_t t = _cursor.getPosition();
+        tile_info* curTile = &_grid[t];
 
-        tile_info* curTile = &_grid[_cursor.getPosition()];
+        if(!_hold)
+        _path.setEnd(t); //Update the dest of the path
     
         switch (cur_EV)
         {
         case sf::Event::MouseButtonReleased:{
-            
+            _hold = false;
+            cord_t t2(-1,-1);
+            if(_select_buffer.size() == 2){
+                t2 = _select_buffer[1]->get_cord();
+                delete _select_buffer[1];
+
+                if(t2 == t){
+                    if( _grid.is_empty(t) && _path.within_range(t)){
+                        MoveUnitCommand cmd(static_cast<Unit*>(_select_buffer[0]), &_grid, t.first, t.second);
+                        cmd.execute();
+                        _select_buffer.clear();
+                        return IDLE;
+                    }
+                    else if(!_path.within_range(t)){
+                        _select_buffer.clear();
+                        return IDLE;
+                    }
+                    else {
+                        _select_buffer.pop_back();
+                        return H_MOVE;
+                    }
+                }
+                else{
+                    _select_buffer.pop_back();
+                    return H_MOVE;
+                }   
+            }
+
+
             break;
         }
         case sf::Event::MouseButtonPressed:{
+            if(_select_buffer.size() == 1){
+                _hold = true;
+                _select_buffer.push_back(new onBoard(t));
+            }
             break;
-        }
-        case sf::Event::MouseMoved:{
-            if(_path.within_range(_cursor.getPosition()) && !curTile->u){
-                _cursor_tile.setOutLineColor(sf::Color::Green);
-            }
-            else{
-                _cursor_tile.setOutLineColor(sf::Color::Red);
-            }
         }
         case sf::Event::KeyPressed:
-        default:
-            break;
+        case sf::Event::MouseMoved:
+        default:{
+            if(!_hold){
+                if(_path.within_range(t) && !curTile->u){
+                    _cursor_tile.setOutLineColor(sf::Color::Green);
+                }
+                else{
+                    _cursor_tile.setOutLineColor(sf::Color::Red);
+                }
+            }
+        }
         }
     
 
-        _select_buffer.clear();
+
         return H_MOVE;
-        return IDLE;
     }
 
     int Board::move(){

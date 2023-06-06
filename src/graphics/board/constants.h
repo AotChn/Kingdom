@@ -6,6 +6,7 @@
 #include <Queue>
 #include <Map>
 
+#include "../command/unit_command.h"
 #include "../../bool_source/bool_source.h"
 #include "../observer/Window_Observer.h" //OBSERVER
 #include "../helper/sfml_helper.h" //HELPER1
