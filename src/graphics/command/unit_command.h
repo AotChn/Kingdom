@@ -1,26 +1,23 @@
 #pragma once
 
 #include "command.h"
-#include "../observer/Cmd_Oberver.h"
 #include "../object/unit/unit.h"
+#include "../object/grids.h"
 
 
-struct MoveUnitCommandPackage{
-  Unit* _unit;
-  int _x, _y,
-  _xBefore, _yBefore;
-};
 
-class MoveUnitCommand : public Command, public Cmd_Subject
+
+class MoveUnitCommand : public Command
 {
 public:
-  MoveUnitCommand(Unit* unit, int x, int y)
+  MoveUnitCommand(Unit* unit, Grid* grid, int x, int y)
   { 
-    _package._unit = unit;
-    _package._x = x;
-    _package._y = y;
-    _package._xBefore = -1;
-    _package._yBefore = -1;
+    _grid = grid;
+    _unit = unit;
+    _x = x;
+    _y = y;
+    _xBefore = _unit->get_x();
+    _yBefore = _unit->get_y();
   }
 
   virtual ~MoveUnitCommand(){}
@@ -28,19 +25,24 @@ public:
   //Update the position of Unit to _x, _y AND Notify the obeserver
   virtual void execute()
   {
-    _package._xBefore = _package._unit->get_x();
-    _package._yBefore = _package._unit->get_y();
-    _package._unit->moveTo(_package._x, _package._y);
-    Notify(this, Command::cmd_type::MoveUnit);
+
+    _grid->detachUnit(_unit->get_cord()); //detach unit from the grid
+    _unit->moveTo(_x, _y);
+    _grid->attachUnit(_unit);
   }
   
   //Undo the position of Unit AND Notify the obeserver
   virtual void undo(){
-    _package._unit->moveTo(_package._xBefore,_package._yBefore);
+    _grid->detachUnit(_unit->get_cord());
+    _unit->moveTo(_xBefore,_yBefore);
+    _grid->attachUnit(_unit);
   }
 
-  MoveUnitCommandPackage& getPackage(){ return _package;}
+
 
 private:
-  MoveUnitCommandPackage _package; //a Wrapper to hold all variables
+  Unit* _unit;
+  Grid* _grid;
+  int _x, _y,
+  _xBefore, _yBefore;
 };

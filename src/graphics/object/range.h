@@ -4,16 +4,11 @@
 #include "onBoard.h"
 #include "grids.h"
 
-typedef std::map<cord_t,cord_t> cordt_cordt;
-typedef std::map<cord_t,ap_t> cordt_int;
 
 class Range : public onBoard
 {   
-
 public:
     // friend class Path;
-    static cordt_cordt trace_map;
-    static cordt_int trace_ap;
 
     /*****************************************************
      * BIG3
@@ -36,10 +31,15 @@ public:
         window.draw(s);
 
         s.setFillColor(RANGE_BLUE); 
-        for(auto t : _trace_map){
-            s.setPosition(sf::Vector2f(dx*t.first.first, dy*t.first.second));
-            window.draw(s);
 
+
+        for(int ap = 1; ap <= _range; ++ap){
+            auto _m = _ap_cordv[ap];
+            for(auto t : _m){
+                s.setPosition(sf::Vector2f(dx*t.first, dy*t.second));
+                window.draw(s);
+
+            }
         }
     }
 
@@ -62,14 +62,16 @@ public:
     }
     
     //Calculate the map, and update the global map object
-    void updateMap(Grid* board = nullptr){
+    virtual void updateMap(Grid* board = nullptr){
         if(board)
             setBoard(board);
         getRangeAll();
     }
 
-private:
-    cordt_cordt _trace_map;
+protected:
+    mCordt_cordt _trace_map;
+    mCordt_int _trace_ap;
+    std::map< ap_t,std::vector<cord_t> > _ap_cordv;
     Grid* _board;
     int _range;
 
@@ -85,6 +87,6 @@ void Range::setRange(int range){
 }
 
 bool Range::within_range(cord_t tile){
-    return _trace_map.find(tile) != _trace_map.end();
+    return _trace_map.find(tile) != _trace_map.end() && _trace_ap[tile] <= _range;
 }
 

@@ -20,15 +20,14 @@ TEST(OBSERVER, simple){
   sub.Notify(w,0);
 }
 
-TEST(UOBSERVER, simple){
+TEST(CMD, moveUnit){
   Grid grid(10,10);
   Infantry i1(cord_t(0,0));
-  MoveUnitCommand cmd(&i1, 1, 1);
+  MoveUnitCommand cmd(&i1, &grid, 1, 1);
   tile_info& t00 = grid[grid.find_tile(cord_t(0,0))];
   tile_info& t11 = grid[grid.find_tile(cord_t(1,1))];
 
-  cmd.Attach(&grid);
-  grid.emplaceUnit(&i1);
+  grid.attachUnit(&i1);
 
   cmd.execute();
 
@@ -43,6 +42,13 @@ TEST(UOBSERVER, simple){
   EXPECT_EQ(&i1, t11.u);
   EXPECT_EQ(false, t11.empty);
 
+  cmd.undo();
+
+  EXPECT_EQ(nullptr, t11.u);
+  EXPECT_EQ(true, t11.empty);
+
+  EXPECT_EQ(&i1, t00.u);
+  EXPECT_EQ(false, t00.empty);
 }
 
 int main(int argc, char **argv) {
