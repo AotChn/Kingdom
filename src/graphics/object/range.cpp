@@ -39,7 +39,5 @@ void Range::getRangeAll(){
 
     _trace_map = r;
     _trace_ap = seen;
-    for(auto x : _trace_ap){
-        _ap_cordv[x.second].push_back(x.first);
-    }
+
 }

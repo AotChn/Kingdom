@@ -17,13 +17,15 @@
     void Board::init_map(){
         Stat p;
         p.set_probability(.1);
-
+        _units.push_back(unitptr_bool());
+        _cmdDQ_it = _cmdDQ.begin();
         for( int y = 0; y < _grid._row; ++y ){
             for(int x = 0; x < _grid._col; ++x){
                 tile_t t(x,y);
                 if(p.query()){
                     Unit* u = new Infantry(t);
-                    _units[t] = u;
+                    _units[0][u] = 0;
+                    
                     _grid.attachUnit(u);
                 }
                 else if(p.query()){
@@ -74,24 +76,32 @@
                 draw(window);
                 return;
             break;
-            case sf::Event::MouseMoved:
+            case sf::Event::MouseMoved:{
                 //updating the cursor position 
                 _cursor.set_cord(sfml_to_tile(getMousePosition(window)));
                 //If holding the mouse, Do not update the cursor_tile
                 if(!_hold)
                     _cursor_tile.set_cord(_cursor.getPosition());
+            }
             break;
             case sf::Event::MouseButtonReleased:
-                std::printf("[Board]->[EV]-> MousePressed\n");
             {
-                cur_EV = event;
                 break;
             }
             
             case sf::Event::MouseButtonPressed:
-                std::printf("[Board]->[EV]-> MouseReleased\n");
             {
-                cur_EV = event;
+                break;
+            }
+            case sf::Event::KeyPressed: //UNDO / REDO
+            {
+                if(!_cmdDQ.empty() && _cmdDQ_it != --_cmdDQ.begin()){ //Allow Undo If Command Q is not empty
+                    (*_cmdDQ_it)->undo();
+                    auto u = static_cast<MoveUnitCommand*>(*_cmdDQ_it)->_unit;
+                    
+                    --_cmdDQ_it;
+                    _already_moved.erase(u);
+                }
                 break;
             }
             default:{
@@ -113,8 +123,9 @@
         //DrawQ
         _draw_q.push(&_grid); // grid to drawQ
         _draw_q.push(&_cursor_tile);// cursor_tile to drawQ
-        for(auto u : _units){// all Units to drawQ
-            _draw_q.push(u.second);
+        for(auto m : _units){// all Units to drawQ
+            for(auto u: m)
+            _draw_q.push(u.first);
         }
         //-------
 
@@ -127,25 +138,25 @@
         switch (cur_EV){
         case sf::Event::MouseButtonReleased:{
             _hold = false;
-            //if there is a pre_selected_tile AND the user certain to selecte that tile (press and release are on the same tile)
-            if(!_select_buffer.empty() && _select_buffer[0] == curTile->u){
-                //Go to Hmove But Before
+           
+            if(!_select_buffer.empty() && _select_buffer[0] == curTile->u){ //-> HMove (Pick up a Unit)
 
                 _path.setStart(t); //set _path
                 _path.setRange(curTile->u->getAp()); //set how many range for the unit
                 _path.updateMap(&_grid); //And calcuate the _path
-                _cursor_tile.setFillColor(VOID_COLOR); //color
+                _path.setEnd(t); //And calcuate the _path
+                // _cursor_tile.setFillColor(VOID_COLOR); //color
                 return H_MOVE;
             }
-            else {
+            else {//IDLE
                 _select_buffer.clear();
                 // std::printf("->[IDLE]->[MouseReleased] : buffer cleared\n");
             }
             break;
         }
         case sf::Event::MouseButtonPressed:{
-            //if not select a tile && current Tile have a controlable unit
-            if(_select_buffer.empty() && curTile->u && curTile->u->isPC()){
+            //select a tile and push it to buffer
+            if(_select_buffer.empty() && _units[0].find(curTile->u) != _units[0].end() && _already_moved.find(curTile->u) == _already_moved.end()){
                 //Ready to getinto Hmove (go to MouseButtonRelased)
                 _hold = true;  
                 _select_buffer.push_back(curTile->u);
@@ -178,8 +189,9 @@
     int Board::h_move(){
         //DrawQ (Grid, Units, path&Range, cursor_tile)
         _draw_q.push(&_grid);
-        for(auto u : _units){
-            _draw_q.push(u.second);
+        for(auto m : _units){
+            for(auto u: m)
+            _draw_q.push(u.first);
         }
         _draw_q.push(&_path);
         _draw_q.push(&_cursor_tile);
@@ -188,35 +200,48 @@
         cord_t t = _cursor.getPosition();
         tile_info* curTile = &_grid[t];
 
-        if(!_hold)
-        _path.setEnd(t); //Update the dest of the path
+        if(!_hold && _path.within_range(t))
+            _path.setEnd(t); //Update the dest of the path
     
         switch (cur_EV)
         {
         case sf::Event::MouseButtonReleased:{
             _hold = false;
             cord_t t2(-1,-1);
-            if(_select_buffer.size() == 2){
+            if(_select_buffer.size() == 2){ //already selected a tile
                 t2 = _select_buffer[1]->get_cord();
                 delete _select_buffer[1];
 
-                if(t2 == t){
-                    if( _grid.is_empty(t) && _path.within_range(t)){
-                        MoveUnitCommand cmd(static_cast<Unit*>(_select_buffer[0]), &_grid, t.first, t.second);
-                        cmd.execute();
+                if(t2 == t){ // same tile
+                    if( _grid.is_empty(t) && _path.within_range(t)){ //Move Unit & return IDLE
+                        //within range && empty
+                        MoveUnitCommand cmd(_select_buffer[0], &_grid, t.first, t.second);
+                        
+                        cmd.execute();  //MOVE
+                        if(!_cmdDQ.empty() && _cmdDQ_it != --_cmdDQ.end()){
+                            for(auto it = ++_cmdDQ_it; it != _cmdDQ.end(); ++it)
+                                delete *it;
+                            _cmdDQ.erase(_cmdDQ_it, _cmdDQ.end());
+                        }
+                        _cmdDQ_it = _cmdDQ.insert(_cmdDQ.end(), new MoveUnitCommand(cmd)); //CMD!!!!
+
+                        _already_moved[_select_buffer[0]] = 1;
                         _select_buffer.clear();
                         return IDLE;
                     }
-                    else if(!_path.within_range(t)){
-                        _select_buffer.clear();
-                        return IDLE;
-                    }
-                    else {
+                    else if(_path.within_range(t)) { //Reselect & Stay in HMove
+                        //In Range, but not empty
                         _select_buffer.pop_back();
                         return H_MOVE;
                     }
+                    else { //Clear state & return IDLE
+                        //Out of Range
+                        _select_buffer.clear();
+                        return IDLE;
+                    }
+
                 }
-                else{
+                else{ // not same tile //Reselect & Stay in HMove
                     _select_buffer.pop_back();
                     return H_MOVE;
                 }   
@@ -228,7 +253,7 @@
         case sf::Event::MouseButtonPressed:{
             if(_select_buffer.size() == 1){
                 _hold = true;
-                _select_buffer.push_back(new onBoard(t));
+                _select_buffer.push_back(new Unit(t, 0));
             }
             break;
         }

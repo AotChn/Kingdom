@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../constants.h"
-#include "unit/unit.h"
+#include "entity/unit.h"
 #include "type_def.h"
 #include "terrain.h"
 #include "onBoard.h"

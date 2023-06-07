@@ -19,14 +19,5 @@ int main(int argc, char **argv){
     game.Attach(&b);
     game.run();
 
-    // int a = 10;
-    // int* c = new int(a);
-    // int& _b = *c;
-    // _b = 100;
-    // cout << "c: " << *c << endl;
-    // return 0;
-
-
-
 }
 

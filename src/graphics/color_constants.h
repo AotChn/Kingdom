@@ -11,6 +11,8 @@ const sf::Color GRID_GREY(70,70,70,255);
 const sf::Color BACKGROUND_DARK(20, 20, 20,255);
 const sf::Color SELECTED_BLUE(51,78,232,200);
 
+//Unit
+const sf::Color UNIT_MOVED_RED(255, 0, 0, 120);
 //Range
 const sf::Color RANGE_YELLOW(239,246,25,150);
 const sf::Color RANGE_BLUE(51,78,232,100);

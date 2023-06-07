@@ -1,7 +1,7 @@
 #pragma once
 
 #include "command.h"
-#include "../object/unit/unit.h"
+#include "../object/entity/unit.h"
 #include "../object/grids.h"
 
 
@@ -28,6 +28,7 @@ public:
 
     _grid->detachUnit(_unit->get_cord()); //detach unit from the grid
     _unit->moveTo(_x, _y);
+    _unit->setMove();
     _grid->attachUnit(_unit);
   }
   
@@ -35,12 +36,12 @@ public:
   virtual void undo(){
     _grid->detachUnit(_unit->get_cord());
     _unit->moveTo(_xBefore,_yBefore);
+    _unit->unsetMove();
     _grid->attachUnit(_unit);
   }
 
 
-
-private:
+// private:
   Unit* _unit;
   Grid* _grid;
   int _x, _y,

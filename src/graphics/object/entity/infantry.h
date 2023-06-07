@@ -18,8 +18,7 @@ public:
     /*****************************************************
      * GETTER / BOOL
      */  
-    
-    inline bool isPC() override;
+    inline virtual bool isPC() override;
     inline virtual ap_t getAp() override;
 };
 

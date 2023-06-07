@@ -9,7 +9,7 @@ class Board : public Window_Observer
 public:
     typedef std::pair<int,int> tile_t;
     typedef std::map<tile_t, tile_t> path_t;
-    typedef std::map<tile_t, Unit*> tile_unitptr;
+    typedef std::map<Unit*,  bool> unitptr_bool;
     enum State {IDLE, H_MOVE, MOVE, ACTION};
 //===========================================
 //  Big 3, Set up 
@@ -52,7 +52,7 @@ private:
     //Drawable objects:
 
     Grid    _grid;  //grid 
-    tile_unitptr _units; //map, key = cord_t | data = unit*
+    std::vector< unitptr_bool >_units; //the first list of _units[0] is player units
     Tile _cursor_tile; //Tile 
     Path _path; //Range->Path
     
@@ -60,9 +60,12 @@ private:
     int cur_ST;     //current State
     int cur_EV;     //current Event
     bool _hold;     //Holding the mouse?
-    std::vector<onBoard*> _select_buffer; //if user select(click) on a tile, that tile will appear on the _selected_buffer
     Cursor _cursor; //storing cursor position 
+    unitptr_bool _already_moved; //A list of moved Units
     std::queue<onBoard*> _draw_q; //Queue of Items to be drawn on the Board
+    std::vector<Unit*> _select_buffer; //if user select(click) on a tile, that tile will appear on the _selected_buffer
+    std::deque<Command*> _cmdDQ;
+    std::deque<Command*>::iterator _cmdDQ_it;
     std::vector<int(Board::*)()> _s = {IDLE_ST, H_MOVE_ST, MOVE_ST, ACTION_ST};
 };  
 

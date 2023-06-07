@@ -33,14 +33,13 @@ public:
         s.setFillColor(RANGE_BLUE); 
 
 
-        for(int ap = 1; ap <= _range; ++ap){
-            auto _m = _ap_cordv[ap];
-            for(auto t : _m){
-                s.setPosition(sf::Vector2f(dx*t.first, dy*t.second));
-                window.draw(s);
 
-            }
+        for(auto t : _trace_map){
+            s.setPosition(sf::Vector2f(dx*t.first.first, dy*t.first.second));
+            window.draw(s);
+
         }
+        
     }
 
     /*****************************************************
@@ -66,22 +65,17 @@ public:
         if(board)
             setBoard(board);
         
-        clear();
         getRangeAll();
     }
 
 protected:
     mCordt_cordt _trace_map;
     mCordt_int _trace_ap;
-    std::map< ap_t,std::vector<cord_t> > _ap_cordv;
     Grid* _board;
     int _range;
 
     //Calculate and Update the Map
     void getRangeAll();
-    void clear(){
-        _ap_cordv.clear();
-    }
 };
 
 

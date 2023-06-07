@@ -1,8 +1,6 @@
 
 # Comment to Last Committ :
-    decopule things within board: cursor, terrain, unit, grids
-    and create corresponding classes
-    Decopuling is made in new_board instead board.h file
+
             
 # Concepts :
     Tile entity:
