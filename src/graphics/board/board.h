@@ -4,8 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include <Queue>
-#include <Map>
+#include <queue>
+#include <map>
 #include <ctime>
 #include <SFML/Graphics.hpp>
 

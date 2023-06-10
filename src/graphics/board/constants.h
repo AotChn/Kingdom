@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <vector>
 #include <ctime>
-#include <Queue>
-#include <Map>
+#include <queue>
+#include <map>
 
 #include "../command/unit_command.h"
 #include "../../bool_source/bool_source.h"
