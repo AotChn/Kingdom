@@ -3,9 +3,6 @@
 
 Grid::Grid(int r, int c): _row(r), _col(c){ _grids = new tile_info[r * c]; }
 
-/*****************************************************
- * VIRTUAL 
- */
 void Grid::draw(sf::RenderWindow& window){
     sf::Vertex vert_lines[2], hori_lines[2];
     vert_lines[0].color = GRID_GREY;
@@ -28,16 +25,6 @@ void Grid::draw(sf::RenderWindow& window){
     }
 
 }
-
-/*****************************************************
- * GETTER 
- */
-
-
-/*****************************************************
- * NAVIGATOR / BOOL_SRC / 
- */
-
 
 std::vector<cord_t> Grid::get_neighbors(cord_t tile){
     std::vector<cord_t> v;

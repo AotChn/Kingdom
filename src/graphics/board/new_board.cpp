@@ -27,15 +27,18 @@
                     _units[0][u] = 0;
                     
                     _grid.attachUnit(u);
+                    _grid[t].t = 0;
                 }
                 else if(p.query()){
                     _grid[t].empty = true;
                     _grid[t].mCost = 1;
+                    _grid.detachUnit(t);
 
                 }
                 else{
                     _grid[t].empty = true;
                     _grid[t].mCost = 1;
+                    _grid.detachUnit(t);
                 }
             }
         }
@@ -95,11 +98,10 @@
             }
             case sf::Event::KeyPressed: //UNDO / REDO
             {
-                if(!_cmdDQ.empty() && _cmdDQ_it != --_cmdDQ.begin()){ //Allow Undo If Command Q is not empty
-                    (*_cmdDQ_it)->undo();
+                if(!_cmdDQ.empty() && _cmdDQ_it != _cmdDQ.begin()){ //Allow Undo If Command Q is not empty
+                    (*--_cmdDQ_it)->undo();
                     auto u = static_cast<MoveUnitCommand*>(*_cmdDQ_it)->_unit;
                     
-                    --_cmdDQ_it;
                     _already_moved.erase(u);
                 }
                 break;
@@ -132,7 +134,7 @@
 
         cord_t t = _cursor.getPosition();
         tile_info* curTile = &_grid[t];
-        
+        assert(curTile);
         //get the current tile info
 
         switch (cur_EV){
@@ -218,12 +220,12 @@
                         MoveUnitCommand cmd(_select_buffer[0], &_grid, t.first, t.second);
                         
                         cmd.execute();  //MOVE
-                        if(!_cmdDQ.empty() && _cmdDQ_it != --_cmdDQ.end()){
-                            for(auto it = ++_cmdDQ_it; it != _cmdDQ.end(); ++it)
+                        if(!_cmdDQ.empty() && _cmdDQ_it != _cmdDQ.end()){
+                            for(auto it = _cmdDQ_it; it != _cmdDQ.end(); ++it)
                                 delete *it;
                             _cmdDQ.erase(_cmdDQ_it, _cmdDQ.end());
                         }
-                        _cmdDQ_it = _cmdDQ.insert(_cmdDQ.end(), new MoveUnitCommand(cmd)); //CMD!!!!
+                        _cmdDQ_it = ++_cmdDQ.insert(_cmdDQ.end(), new MoveUnitCommand(cmd)); //CMD!!!!
 
                         _already_moved[_select_buffer[0]] = 1;
                         _select_buffer.clear();
