@@ -2,6 +2,7 @@
 #define BOARD__H
 
 #include "constants.h"
+#include "../../resources/texture_manager.h"
 
 class Board : public Window_Observer
 {
@@ -51,6 +52,7 @@ private:
 
     //Drawable objects:
 
+    resources::TM text;
     Grid    _grid;  //grid 
     tile_unitptr _units; //map, key = cord_t | data = unit*
     Tile _cursor_tile; //Tile 

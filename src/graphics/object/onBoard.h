@@ -1,5 +1,6 @@
 #pragma once
 #include "type_def.h"
+#include "../../resources/texture_manager.h"
 
 class onBoard{
 public:
@@ -19,6 +20,11 @@ public:
     cord_t  get_cord() { return _cord; }
     int     get_x() { return _cord.first;}
     int     get_y() { return _cord.second;}
+
+
+    resources::TM texture;
+
 private:
     cord_t _cord; //coordinate where the object locate
+    
 };

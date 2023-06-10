@@ -7,7 +7,7 @@ class app{
     public:
     
     app(){}
-    run();
+    void run();
 };
 
 #endif

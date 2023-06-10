@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <vector>
 #include <ctime>
-#include <Queue>
-#include <Map>
+#include <queue>
+#include <map>
 
 #include "../../bool_source/bool_source.h"
 #include "../observer/Window_Observer.h" //OBSERVER

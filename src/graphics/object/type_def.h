@@ -2,9 +2,9 @@
 
 #include <assert.h>
 #include <utility>
-#include <Map>
+#include <map>
 #include <vector>
-#include <Queue>
+#include <queue>
 #include <SFML/Graphics.hpp>
 
 #include "../color_constants.h"

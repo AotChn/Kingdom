@@ -14,10 +14,10 @@ using namespace std;
 
 int main(int argc, char **argv){
 
-    // animate game;
-    // Board b(10,10);
-    // game.Attach(&b);
-    // game.run();
+    animate game;
+    Board b(10,10);
+    game.Attach(&b);
+    game.run();
 
     // int a = 10;
     // int* c = new int(a);

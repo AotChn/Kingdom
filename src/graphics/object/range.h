@@ -33,6 +33,12 @@ public:
         //draw center tile 
         s.setFillColor(RANGE_YELLOW); 
         s.setPosition( sf::Vector2f( dx*get_cord().first, dy*get_cord().second) );
+        
+        
+        sf::Texture* T = texture.get_texture("textures/sample_terrain.png");
+        s.setTexture(T);
+
+
         window.draw(s);
 
         s.setFillColor(RANGE_BLUE); 

@@ -1,4 +1,7 @@
-#pragma once
+//#pragma once
+
+#ifndef IOBSERVER_H
+#define IOBSERVER_H
 
 #include <iostream>
 #include <assert.h>
@@ -123,3 +126,5 @@ protected:
 };
 
 
+//#include "iObserver.cpp"
+#endif
