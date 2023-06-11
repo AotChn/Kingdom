@@ -59,7 +59,23 @@
 //===========================================
     
     cord_t Board::sfml_to_tile(cord_t tile){
-        return std::make_pair(tile.first/onBoard::DX,tile.second/onBoard::DY);
+        auto p = std::make_pair(tile.first/onBoard::DX,tile.second/onBoard::DY);
+        if(p.first < 0 || p.first >= _grid.get_col() ) {
+            std::cout <<  "[  id  :   BUG ]   board::sfml_to_tile tile.x =" << p.first << " is out of bound\n";
+            // assert(false);
+            if(p.first < 0){
+                p.first = 0;
+            }else p.first = _grid.get_col() - 1;
+        }
+            
+        if(p.second < 0 || p.second >=  _grid.get_row()) {
+            std::cout <<  "[  id  :   BUG ]   board::sfml_to_tile tile.y =" << p.second << " is out of bound\n";
+            if(p.second < 0){
+                p.second = 0;
+            }else p.second = _grid.get_row() - 1;
+
+        }
+        return p;
     }
 
 

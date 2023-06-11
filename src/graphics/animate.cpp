@@ -3,6 +3,7 @@
 animate::animate(){
     window.create(sf::VideoMode(SCREEN_WIDTH,SCREEN_HEIGHT),"KINGDOM");
     window.setFramerateLimit(60);
+    // sf::Mouse::setPosition(sf::Vector2i(0,0), window);
 }
 
 void animate::run(){
