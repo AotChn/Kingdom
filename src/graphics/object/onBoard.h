@@ -1,11 +1,12 @@
 #pragma once
 #include "type_def.h"
+#include "../../resources/texture_manager.h"
 
 class onBoard{
 public:
     static int DX; //the deviation of x
     static int DY; //the deviation of y
-    onBoard(cord_t where = cord_t(0,0)) : _cord(where){}
+    onBoard(cord_t where = cord_t(0,0)) : _cord(where){ FL.set_params(6,16,6);}
     /*****************************************************
      * VIRTUAL 
      */
@@ -19,6 +20,9 @@ public:
     cord_t  get_cord() { return _cord; }
     int     get_x() { return _cord.first;}
     int     get_y() { return _cord.second;}
+
+    resources::TM texture;
+    resources::FrameLoop FL;
 private:
     cord_t _cord; //coordinate where the object locate
 };
