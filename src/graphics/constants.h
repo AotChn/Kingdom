@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include "color_constants.h"
 
-const unsigned int SCREEN_WIDTH = 900;
-const unsigned int SCREEN_HEIGHT = 800;
+const unsigned int SCREEN_WIDTH = 2000;
+const unsigned int SCREEN_HEIGHT = 2000;
 
 enum CUSTOM_SFEV{
     Idle = -1,
