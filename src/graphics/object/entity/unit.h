@@ -16,9 +16,9 @@ public:
     
     virtual void draw(sf::RenderWindow& window){
         if(!_moved)
-        window.draw(unit(sf::Color::Red));
+        window.draw(unit(sf::Color::White));
         else
-        window.draw(unit(UNIT_MOVED_RED));
+        window.draw(unit(sf::Color(150,150,150)));
     }
     
     /*****************************************************
@@ -52,8 +52,13 @@ public:
         int u = DX * 1/4;
         sf::RectangleShape s;
         s.setFillColor(c); 
-        s.setPosition(sf::Vector2f( DX * get_cord().first + u, DY * get_cord().second + u ) );
-        s.setSize(sf::Vector2f(DX/2, DY/2));
+        s.setPosition(sf::Vector2f( DX * get_cord().first + 0, DY * get_cord().second + 0 ) );
+        s.setSize(sf::Vector2f(DX, DY));
+
+        sf::Texture* T = texture.get_texture("textures/bouncing_ball.png");
+        s.setTexture(T);
+        s.setTextureRect(sf::IntRect(FL.get_next(),0,16,16));
+
         return s;
     }
 
